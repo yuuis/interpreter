@@ -1,4 +1,4 @@
-package newLang1;
+package newlang3;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,13 +20,19 @@ public class Main {
             return;
         }
 
-        // read char and print it until eof
+        //
         try {
-            for(int i = 0; i < file.length(); i++) {
-                System.out.print((char)fileReader.read());
+            LexicalUnit lexicalUnit;
+            LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzerImpl(fileReader);
+            while(true) {
+                lexicalUnit = lexicalAnalyzer.get();
+                if(lexicalUnit.getType() == LexicalType.EOF) {
+                    break;
+                }
+                System.out.println(lexicalUnit);
             }
-        } catch (IOException e) {
-            System.out.println("io error occured.");
+        } catch (Exception e) {
+            System.out.println(e);
         }
 
         // close file
