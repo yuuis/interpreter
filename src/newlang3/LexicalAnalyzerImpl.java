@@ -1,13 +1,12 @@
 package newlang3;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     PushbackReader reader;
 
     public LexicalAnalyzerImpl(String filePath) throws Exception {
-        reader = new PushbackReader(FileReader(new File(filePath)));
+        reader = new PushbackReader(new FileReader(new File(filePath)));
     }
 
     public LexicalUnit get() throws Exception{
@@ -28,10 +27,9 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
         }
 
-        return new LexicalUnit;
     }
 
-    // アルファベットの2文字目以降の処理
+    // process after the second letter of the alphabet
     private LexicalUnit getString() throws Exception{
         String target = "";
         while(true) {
