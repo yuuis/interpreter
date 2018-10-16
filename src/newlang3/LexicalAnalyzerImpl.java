@@ -4,13 +4,9 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class LexicalAnalyzerImpl implements LexicalAnalyzer {
-    String filePath;
     PushbackReader reader;
 
     public LexicalAnalyzerImpl(String filePath) throws Exception {
-        // read char and print it until eof
-
-        this.filePath = filePath;
         reader = new PushbackReader(FileReader(new File(filePath)));
     }
 
