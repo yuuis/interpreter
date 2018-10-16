@@ -1,28 +1,60 @@
 package newlang3;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
+import java.util.ArrayList;
 
 public class LexicalAnalyzerImpl implements LexicalAnalyzer {
+    String filePath;
+    PushbackReader reader;
 
-    public LexicalAnalyzerImpl(Reader file) throws Exception {
+    public LexicalAnalyzerImpl(String filePath) throws Exception {
         // read char and print it until eof
-        try {
-            for(int i = 0; i < file.toString().length(); i++) {
-                System.out.print((char)file.read());
-            }
-        } catch (IOException e) {
-            System.out.println("io error occured.");
-        }
+
+        this.filePath = filePath;
+        reader = new PushbackReader(FileReader(new File(filePath)));
     }
 
-    public LexicalUnit get() throws Exception {
+    public LexicalUnit get() throws Exception{
+        while(true) {
+            int ci = reader.read();
+            if(ci < 0) {
+                return new LexicalUnit(LexicalType.EOF);
+            } else {
+                char c = (char) ci;
+
+                // when alphabet
+                if((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z')) {
+                    return getString();
+                }
+
+                // other conditions
+            }
+
+        }
+
         return new LexicalUnit;
     }
 
-    public boolean expect(LexicalType type) throws Exception {
+    // アルファベットの2文字目以降の処理
+    private LexicalUnit getString() throws Exception{
+        String target = "";
+        while(true) {
+            int ci = reader.read();
+            char c = (char) ci;
+            if((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z')) {
+                target += c;
+                continue;
+            }
+            reader.unread(ci);
+            break;
+        }
+        // work in process
+        return new LexicalUnit();
+    }
+
+    public boolean expect(LexicalType type) {
         return true;
     }
 
-    public void unget(LexicalUnit token) throws Exception{}
+    public void unget(LexicalUnit token) {}
 }

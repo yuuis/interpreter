@@ -1,12 +1,13 @@
 package newlang3;
 
 public interface Value {
-// constructor shoud be implemented
+// constructor should be implemented
 //    public Value(String s);
 //    public Value(int i);
 //    public Value(double d);
 //    public Value(boolean b);
 //    public String get_sValue();
+
 	public String getSValue();
 		// get value as String. If necessary, convert to String.
 	public int getIValue();
