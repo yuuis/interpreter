@@ -18,28 +18,30 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                 char c = (char) ci;
 
                 if((c == ' ') || (c == '\t') || (c == '\r')) { continue; }
+
                 // when alphabet
                 if((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z')) {
+                    reader.unread(ci);
                     return getString();
                 }
 
-                // other conditions
+                // when number
+                if(c >= 1 && c <= 9) {
+                    reader.unread(ci);
+                    return getInt();
+                }
             }
-
         }
-
     }
 
-    // process after the second letter of the alphabet
-    private LexicalUnit getString() throws Exception{
+    private LexicalUnit getString() throws Exception {
         String target = "";
 
         // make target
         while(true) {
             int ci = reader.read();
             char c = (char) ci;
-            if((true)) {
-                System.out.println("hoge");
+            if(((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z'))) {
                 target += c;
                 continue;
             }
@@ -52,6 +54,23 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
         System.out.println(target);
         return new LexicalUnit(LexicalType.valueOf(target), new ValueImpl(target));
+    }
+
+    private LexicalUnit getInt() throws Exception {
+        String target = "";
+
+        while(true) {
+            int ci = reader.read();
+            char c = (char) ci;
+            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+                target += c;
+                continue;
+            }
+            reader.unread(ci);
+            break;
+        }
+        System.out.println(target);
+        return new LexicalUnit(LexicalType.valueOf(target), new ValueImpl(Integer.parseInt(target)));
     }
 
     public boolean expect(LexicalType type) {
