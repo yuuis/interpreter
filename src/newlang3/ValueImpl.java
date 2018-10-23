@@ -32,17 +32,17 @@ public class ValueImpl implements Value{
     }
 
     @Override
-    public int getIValue() {
+    public int getIntValue() {
         return Integer.parseInt(val);
     }
 
     @Override
-    public double getDValue() {
+    public double getDoubleValue() {
         return Double.parseDouble(val);
     }
 
     @Override
-    public boolean getBValue() {
+    public boolean getBooleanValue() {
         return Boolean.parseBoolean(val);
     }
 

@@ -17,6 +17,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             } else {
                 char c = (char) ci;
 
+                if((c == ' ') || (c == '\t') || (c == '\r')) { continue; }
                 // when alphabet
                 if((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z')) {
                     return getString();
@@ -32,18 +33,25 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     // process after the second letter of the alphabet
     private LexicalUnit getString() throws Exception{
         String target = "";
+
+        // make target
         while(true) {
             int ci = reader.read();
             char c = (char) ci;
-            if((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z')) {
+            if((true)) {
+                System.out.println("hoge");
                 target += c;
                 continue;
             }
             reader.unread(ci);
             break;
         }
-        // work in process
-        return new LexicalUnit();
+
+        // return LexicalUnit
+        // LexicalUnit constructor receive LexicalType
+
+        System.out.println(target);
+        return new LexicalUnit(LexicalType.valueOf(target), new ValueImpl(target));
     }
 
     public boolean expect(LexicalType type) {
@@ -51,4 +59,5 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     }
 
     public void unget(LexicalUnit token) {}
+
 }
