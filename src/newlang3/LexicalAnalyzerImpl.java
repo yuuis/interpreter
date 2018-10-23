@@ -51,8 +51,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
         // return LexicalUnit
         // LexicalUnit constructor receive LexicalType
-
-        System.out.println(target);
+        // Todo: LexicalType contains not preserved words, so make Map
         return new LexicalUnit(LexicalType.valueOf(target), new ValueImpl(target));
     }
 
@@ -69,7 +68,6 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             reader.unread(ci);
             break;
         }
-        System.out.println(target);
         return new LexicalUnit(LexicalType.valueOf(target), new ValueImpl(Integer.parseInt(target)));
     }
 
