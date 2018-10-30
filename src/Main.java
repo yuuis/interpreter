@@ -7,7 +7,7 @@ import java.io.PushbackReader;
 
 public class Main {
     public static void main(String[] args) {
-        final String SORCE_PATH = "/Users/yuuis/tut/after_semester_3/practical_programming/interpreter/test1.bas";
+        final String SORCE_PATH = "test1.bas";
         FileReader fileReader;
 
         try {
