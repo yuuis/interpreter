@@ -44,7 +44,6 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                 if(SYMBOL_INITIAL_MAP.containsKey(c + "")) {
                     return getSymbol(c);
                 }
-
             }
         }
     }
