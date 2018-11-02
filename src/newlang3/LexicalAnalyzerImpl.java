@@ -70,6 +70,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
     private LexicalUnit getInt() throws Exception {
         String target = "";
+        Boolean decimalFlag = false;
 
         while(true) {
             int ci = reader.read();
@@ -77,11 +78,21 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             if (c >= '0' && c <= '9') {
                 target += c;
                 continue;
+            } else if (c == '.' && !decimalFlag) {
+                decimalFlag = true;
+                target += c;
+                continue;
+            } else if(c == '.' && decimalFlag) {
+                throw new Exception("syntax error");
             }
             reader.unread(ci);
             break;
         }
-        return new LexicalUnit(LexicalType.INTVAL, new ValueImpl(Integer.parseInt(target)));
+        if(decimalFlag) {
+            return new LexicalUnit(LexicalType.DOUBLEVAL, new ValueImpl(Double.parseDouble(target)));
+        } else {
+            return new LexicalUnit(LexicalType.INTVAL, new ValueImpl(Integer.parseInt(target)));
+        }
     }
 
     private LexicalUnit getSymbol(char c) throws Exception {
