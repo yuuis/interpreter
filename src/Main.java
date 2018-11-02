@@ -9,10 +9,10 @@ import java.io.PushbackReader;
 
 public class Main {
     public static void main(String[] args) {
-        final String SORCE_PATH = "test1.bas";
+        final String SOURCE_PATH = "test1.bas";
         try {
             FileReader fileReader;
-            fileReader = new FileReader(new File(SORCE_PATH));
+            fileReader = new FileReader(new File(SOURCE_PATH));
             try {
                 LexicalUnit lexicalUnit;
                 PushbackReader reader  = new PushbackReader(fileReader);
