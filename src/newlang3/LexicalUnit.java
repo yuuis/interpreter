@@ -33,31 +33,31 @@ public class LexicalUnit {
       case INTVAL:
         return "INTVAL:\t" + value.getSValue();
       case IF:
-            return ("IF");
+        return ("IF");
       case THEN:
-            return ("THEN");
+        return ("THEN");
       case ELSE:
-            return ("ELSE");
+        return ("ELSE");
       case FOR:
-            return ("FOR");
+        return ("FOR");
       case FORALL:
-            return ("FORALL");
+        return ("FORALL");
       case NEXT:
-            return ("NEXT");
+        return ("NEXT");
       case SUB:
-            return ("SUB");
+        return ("SUB");
       case DIM:
-            return ("DIM");
+        return ("DIM");
       case AS:
-            return ("AS");
+        return ("AS");
       case END:
-            return ("END");
+        return ("END");
       case EOF:
-            return ("EOF");
+        return ("EOF");
       case NL:
-            return ("NL");
+        return ("NL");
       case EQ:
-            return ("EQ");
+        return ("EQ");
       case LT:
         return ("LT");
       case GT:
@@ -66,8 +66,8 @@ public class LexicalUnit {
         return ("LE");
       case GE:
         return ("GE");
-      case DOT:
-        return ("DOT");
+      case DO:
+        return ("DO");
       case WHILE:
         return ("WHILE");
       case UNTIL:

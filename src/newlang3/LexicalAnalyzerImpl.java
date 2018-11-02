@@ -154,9 +154,9 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         RESERVED_WORD_MAP.put("LOOP", LexicalType.LOOP);
         RESERVED_WORD_MAP.put("TO", LexicalType.TO);
         RESERVED_WORD_MAP.put("WEND", LexicalType.WEND);
-        SYMBOL_INITIAL_MAP.put("=", null);
-        SYMBOL_INITIAL_MAP.put("<", null);
-        SYMBOL_INITIAL_MAP.put(">", null);
+        SYMBOL_INITIAL_MAP.put("=", LexicalType.EQ);
+        SYMBOL_INITIAL_MAP.put("<", LexicalType.LT);
+        SYMBOL_INITIAL_MAP.put(">", LexicalType.GT);
         SYMBOL_INITIAL_MAP.put(".", LexicalType.DOT);
         SYMBOL_INITIAL_MAP.put("+", LexicalType.ADD);
         SYMBOL_INITIAL_MAP.put("-", LexicalType.SUB);
