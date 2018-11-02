@@ -41,7 +41,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                 }
 
                 // when symbol
-                if(SYMBOL_INITIAL_MAP.containsKey(c + "")) {
+                if(SYMBOL_MAP.containsKey(c + "")) {
                     return getSymbol(c);
                 }
             }
@@ -54,7 +54,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         while(true) {
             int ci = reader.read();
             char c = (char) ci;
-            if(((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z'))) {
+            if(((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'  && c <= '9'))) {
                 target += c;
                 continue;
             }
@@ -67,7 +67,6 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             return new LexicalUnit(LexicalType.NAME, new ValueImpl(target));
         }
     }
-
 
     private LexicalUnit getInt() throws Exception {
         String target = "";
