@@ -105,27 +105,24 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             case '<':
                 if (nextC == '=' || nextC == '>') {
                     target += nextC;
-                    return new LexicalUnit(SYMBOL_MAP.get(target));
                 } else {
                     reader.unread(ci);
-                    return new LexicalUnit(SYMBOL_MAP.get(target));
                 }
+                return new LexicalUnit(SYMBOL_MAP.get(target));
             case '>':
                 if (nextC == '=') {
                     target += nextC;
-                    return new LexicalUnit(SYMBOL_MAP.get(target));
                 } else {
                     reader.unread(ci);
-                    return new LexicalUnit(SYMBOL_MAP.get(target));
                 }
+                return new LexicalUnit(SYMBOL_MAP.get(target));
             case '=':
                 if (nextC == '<' || nextC == '>') {
                     target += nextC;
-                    return new LexicalUnit(SYMBOL_MAP.get(target));
                 } else {
                     reader.unread(ci);
-                    return new LexicalUnit(SYMBOL_MAP.get(target));
                 }
+                return new LexicalUnit(SYMBOL_MAP.get(target));
             default:
                 reader.unread(ci);
                 return new LexicalUnit(SYMBOL_MAP.get(target));
