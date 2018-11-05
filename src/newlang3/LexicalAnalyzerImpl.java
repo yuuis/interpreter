@@ -32,7 +32,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                 // when number
                 if(c >= '0' && c <= '9') {
                     reader.unread(ci);
-                    return getInt();
+                    return getNunber();
                 }
 
                 // when literal
@@ -44,6 +44,8 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                 if(SYMBOL_MAP.containsKey(c + "")) {
                     return getSymbol(c);
                 }
+
+                throw new Exception("syntax error");
             }
         }
     }
@@ -68,7 +70,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         }
     }
 
-    private LexicalUnit getInt() throws Exception {
+    private LexicalUnit getNunber() throws Exception {
         String target = "";
         Boolean decimalFlag = false;
 
@@ -162,18 +164,6 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         RESERVED_WORD_MAP.put("TO", LexicalType.TO);
         RESERVED_WORD_MAP.put("PRINT", LexicalType.PRINT);
         RESERVED_WORD_MAP.put("WEND", LexicalType.WEND);
-        SYMBOL_INITIAL_MAP.put("=", LexicalType.EQ);
-        SYMBOL_INITIAL_MAP.put("<", LexicalType.LT);
-        SYMBOL_INITIAL_MAP.put(">", LexicalType.GT);
-        SYMBOL_INITIAL_MAP.put(".", LexicalType.DOT);
-        SYMBOL_INITIAL_MAP.put("+", LexicalType.ADD);
-        SYMBOL_INITIAL_MAP.put("-", LexicalType.SUB);
-        SYMBOL_INITIAL_MAP.put("*", LexicalType.MUL);
-        SYMBOL_INITIAL_MAP.put("/", LexicalType.DIV);
-        SYMBOL_INITIAL_MAP.put(")", LexicalType.LP);
-        SYMBOL_INITIAL_MAP.put("(", LexicalType.RP);
-        SYMBOL_INITIAL_MAP.put(",", LexicalType.COMMA);
-        SYMBOL_INITIAL_MAP.put("\n", LexicalType.NL);
         SYMBOL_MAP.put("=", LexicalType.EQ);
         SYMBOL_MAP.put("<", LexicalType.LT);
         SYMBOL_MAP.put(">", LexicalType.GT);
