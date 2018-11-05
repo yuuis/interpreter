@@ -160,6 +160,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         RESERVED_WORD_MAP.put("UNTIL", LexicalType.UNTIL);
         RESERVED_WORD_MAP.put("LOOP", LexicalType.LOOP);
         RESERVED_WORD_MAP.put("TO", LexicalType.TO);
+        RESERVED_WORD_MAP.put("PRINT", LexicalType.PRINT);
         RESERVED_WORD_MAP.put("WEND", LexicalType.WEND);
         SYMBOL_INITIAL_MAP.put("=", LexicalType.EQ);
         SYMBOL_INITIAL_MAP.put("<", LexicalType.LT);
