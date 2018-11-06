@@ -56,6 +56,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         while(true) {
             int ci = reader.read();
             char c = (char) ci;
+            if(ci < 0) break;
             if(((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'  && c <= '9'))) {
                 target += c;
                 continue;
@@ -77,6 +78,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         while(true) {
             int ci = reader.read();
             char c = (char) ci;
+            if(ci < 0) { break; }
             if (c >= '0' && c <= '9') {
                 target += c;
                 continue;
@@ -102,6 +104,8 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
         int ci = reader.read();
         char nextC = (char) ci;
+
+        if(ci < 0) return new LexicalUnit(SYMBOL_MAP.get(target));
 
         switch (c) {
             case '<':
@@ -136,6 +140,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
         while(true) {
             int ci = reader.read();
+            if(ci < 0) break;
             char c = (char) ci;
             if(c != '"') {
                 target += c;
@@ -143,6 +148,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             }
             return new LexicalUnit(LexicalType.LITERAL, new ValueImpl(target));
         }
+        throw new Exception("syntax error");
     }
 
     static {
