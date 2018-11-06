@@ -16,6 +16,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         while(true) {
             int ci = reader.read();
             reader.unread(ci);
+
             if(ci < 0) {
                 return new LexicalUnit(LexicalType.EOF);
             } else {
@@ -46,7 +47,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                     return getSymbol();
                 }
 
-                throw new Exception("syntax error");
+                throw new Exception("character cant be interpreted");
             }
         }
     }
@@ -79,7 +80,8 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         while(true) {
             int ci = reader.read();
             char c = (char) ci;
-            if(ci < 0) { break; }
+
+            if(ci < 0) break;
             if (c >= '0' && c <= '9') {
                 target += c;
                 continue;
@@ -88,7 +90,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                 target += c;
                 continue;
             } else if(c == '.' && decimalFlag) {
-                throw new Exception("syntax error");
+                throw new Exception("too many dots.");
             }
             reader.unread(ci);
             break;
@@ -126,13 +128,14 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             int ci = reader.read();
             if(ci < 0) break;
             char c = (char) ci;
+
             if(c != '"') {
                 target += c;
                 continue;
             }
             return new LexicalUnit(LexicalType.LITERAL, new ValueImpl(target));
         }
-        throw new Exception("syntax error");
+        throw new Exception("cant find closing double quote");
     }
 
     static {
