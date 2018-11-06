@@ -5,9 +5,8 @@ import java.util.HashMap;
 
 public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     PushbackReader reader;
-    static HashMap<String, LexicalType> RESERVED_WORD_MAP = new HashMap<>();
-    static HashMap<String, LexicalType> SYMBOL_MAP = new HashMap<>();
-    static HashMap<String, LexicalType> SYMBOL_INITIAL_MAP = new HashMap<>();
+    static HashMap<String, LexicalUnit> RESERVED_WORD_MAP = new HashMap<>();
+    static HashMap<String, LexicalUnit> SYMBOL_MAP = new HashMap<>();
 
     public LexicalAnalyzerImpl(PushbackReader reader) {
         this.reader = reader;
@@ -65,7 +64,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             break;
         }
         if(RESERVED_WORD_MAP.containsKey(target)) {
-            return new LexicalUnit(RESERVED_WORD_MAP.get(target));
+            return RESERVED_WORD_MAP.get(target);
         } else {
             return new LexicalUnit(LexicalType.NAME, new ValueImpl(target));
         }
@@ -102,36 +101,18 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     private LexicalUnit getSymbol(char c) throws Exception {
         String target = c + "";
 
-        int ci = reader.read();
-        char nextC = (char) ci;
+        while(true) {
+            int ci = reader.read();
+            if(ci < 0) return SYMBOL_MAP.get(target);
+            target += (char) ci;
 
-        if(ci < 0) return new LexicalUnit(SYMBOL_MAP.get(target));
-
-        switch (c) {
-            case '<':
-                if (nextC == '=' || nextC == '>') {
-                    target += nextC;
-                } else {
-                    reader.unread(ci);
-                }
-                return new LexicalUnit(SYMBOL_MAP.get(target));
-            case '>':
-                if (nextC == '=') {
-                    target += nextC;
-                } else {
-                    reader.unread(ci);
-                }
-                return new LexicalUnit(SYMBOL_MAP.get(target));
-            case '=':
-                if (nextC == '<' || nextC == '>') {
-                    target += nextC;
-                } else {
-                    reader.unread(ci);
-                }
-                return new LexicalUnit(SYMBOL_MAP.get(target));
-            default:
+            if(SYMBOL_MAP.containsKey(target)) {
+                continue;
+            } else {
                 reader.unread(ci);
-                return new LexicalUnit(SYMBOL_MAP.get(target));
+                target = target.substring(0, target.length() - 1);
+                return SYMBOL_MAP.get(target);
+            }
         }
     }
 
@@ -152,41 +133,41 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     }
 
     static {
-        RESERVED_WORD_MAP.put("IF", LexicalType.IF);
-        RESERVED_WORD_MAP.put("THEN", LexicalType.THEN);
-        RESERVED_WORD_MAP.put("ELSE", LexicalType.ELSE);
-        RESERVED_WORD_MAP.put("ELSEIF", LexicalType.ELSEIF);
-        RESERVED_WORD_MAP.put("FOR", LexicalType.FOR);
-        RESERVED_WORD_MAP.put("FORALL", LexicalType.FORALL);
-        RESERVED_WORD_MAP.put("NEXT", LexicalType.NEXT);
-        RESERVED_WORD_MAP.put("SUB", LexicalType.FUNC);
-        RESERVED_WORD_MAP.put("DIM", LexicalType.DIM);
-        RESERVED_WORD_MAP.put("AS", LexicalType.AS);
-        RESERVED_WORD_MAP.put("END", LexicalType.END);
-        RESERVED_WORD_MAP.put("WHILE", LexicalType.WHILE);
-        RESERVED_WORD_MAP.put("DO", LexicalType.DO);
-        RESERVED_WORD_MAP.put("UNTIL", LexicalType.UNTIL);
-        RESERVED_WORD_MAP.put("LOOP", LexicalType.LOOP);
-        RESERVED_WORD_MAP.put("TO", LexicalType.TO);
-        RESERVED_WORD_MAP.put("PRINT", LexicalType.PRINT);
-        RESERVED_WORD_MAP.put("WEND", LexicalType.WEND);
-        SYMBOL_MAP.put("=", LexicalType.EQ);
-        SYMBOL_MAP.put("<", LexicalType.LT);
-        SYMBOL_MAP.put(">", LexicalType.GT);
-        SYMBOL_MAP.put("<=", LexicalType.LE);
-        SYMBOL_MAP.put("=<", LexicalType.LE);
-        SYMBOL_MAP.put(">=", LexicalType.GE);
-        SYMBOL_MAP.put("=>", LexicalType.GE);
-        SYMBOL_MAP.put("<>", LexicalType.NE);
-        SYMBOL_MAP.put(".", LexicalType.DOT);
-        SYMBOL_MAP.put("+", LexicalType.ADD);
-        SYMBOL_MAP.put("-", LexicalType.SUB);
-        SYMBOL_MAP.put("*", LexicalType.MUL);
-        SYMBOL_MAP.put("/", LexicalType.DIV);
-        SYMBOL_MAP.put(")", LexicalType.LP);
-        SYMBOL_MAP.put("(", LexicalType.RP);
-        SYMBOL_MAP.put(",", LexicalType.COMMA);
-        SYMBOL_MAP.put("\n", LexicalType.NL);
+        RESERVED_WORD_MAP.put("IF", new LexicalUnit(LexicalType.IF));
+        RESERVED_WORD_MAP.put("THEN", new LexicalUnit(LexicalType.THEN));
+        RESERVED_WORD_MAP.put("ELSE", new LexicalUnit(LexicalType.ELSE));
+        RESERVED_WORD_MAP.put("ELSEIF", new LexicalUnit(LexicalType.ELSEIF));
+        RESERVED_WORD_MAP.put("FOR", new LexicalUnit(LexicalType.FOR));
+        RESERVED_WORD_MAP.put("FORALL", new LexicalUnit(LexicalType.FORALL));
+        RESERVED_WORD_MAP.put("NEXT", new LexicalUnit(LexicalType.NEXT));
+        RESERVED_WORD_MAP.put("SUB", new LexicalUnit(LexicalType.FUNC));
+        RESERVED_WORD_MAP.put("DIM", new LexicalUnit(LexicalType.DIM));
+        RESERVED_WORD_MAP.put("AS", new LexicalUnit(LexicalType.AS));
+        RESERVED_WORD_MAP.put("END", new LexicalUnit(LexicalType.END));
+        RESERVED_WORD_MAP.put("WHILE", new LexicalUnit(LexicalType.WHILE));
+        RESERVED_WORD_MAP.put("DO", new LexicalUnit(LexicalType.DO));
+        RESERVED_WORD_MAP.put("UNTIL", new LexicalUnit(LexicalType.UNTIL));
+        RESERVED_WORD_MAP.put("LOOP", new LexicalUnit(LexicalType.LOOP));
+        RESERVED_WORD_MAP.put("TO", new LexicalUnit(LexicalType.TO));
+        RESERVED_WORD_MAP.put("PRINT", new LexicalUnit(LexicalType.PRINT));
+        RESERVED_WORD_MAP.put("WEND", new LexicalUnit(LexicalType.WEND));
+        SYMBOL_MAP.put("=", new LexicalUnit(LexicalType.EQ));
+        SYMBOL_MAP.put("<", new LexicalUnit(LexicalType.LT));
+        SYMBOL_MAP.put(">", new LexicalUnit(LexicalType.GT));
+        SYMBOL_MAP.put("<=", new LexicalUnit(LexicalType.LE));
+        SYMBOL_MAP.put("=<", new LexicalUnit(LexicalType.LE));
+        SYMBOL_MAP.put(">=", new LexicalUnit(LexicalType.GE));
+        SYMBOL_MAP.put("=>", new LexicalUnit(LexicalType.GE));
+        SYMBOL_MAP.put("<>", new LexicalUnit(LexicalType.NE));
+        SYMBOL_MAP.put(".", new LexicalUnit(LexicalType.DOT));
+        SYMBOL_MAP.put("+", new LexicalUnit(LexicalType.ADD));
+        SYMBOL_MAP.put("-", new LexicalUnit(LexicalType.SUB));
+        SYMBOL_MAP.put("*", new LexicalUnit(LexicalType.MUL));
+        SYMBOL_MAP.put("/", new LexicalUnit(LexicalType.DIV));
+        SYMBOL_MAP.put(")", new LexicalUnit(LexicalType.LP));
+        SYMBOL_MAP.put("(", new LexicalUnit(LexicalType.RP));
+        SYMBOL_MAP.put(",", new LexicalUnit(LexicalType.COMMA));
+        SYMBOL_MAP.put("\n", new LexicalUnit(LexicalType.NL));
     }
 
     public boolean expect(LexicalType type) {
