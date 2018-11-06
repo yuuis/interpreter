@@ -15,23 +15,25 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     public LexicalUnit get() throws Exception {
         while(true) {
             int ci = reader.read();
+            reader.unread(ci);
             if(ci < 0) {
                 return new LexicalUnit(LexicalType.EOF);
             } else {
                 char c = (char) ci;
 
-                if((c == ' ') || (c == '\t') || (c == '\n')) { continue; }
+                if((c == ' ') || (c == '\t') || (c == '\n')) {
+                    reader.read();
+                    continue;
+                }
 
                 // when alphabet
                 if((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z')) {
-                    reader.unread(ci);
                     return getString();
                 }
 
                 // when number
                 if(c >= '0' && c <= '9') {
-                    reader.unread(ci);
-                    return getNunber();
+                    return getNumber();
                 }
 
                 // when literal
@@ -41,7 +43,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
                 // when symbol
                 if(SYMBOL_MAP.containsKey(c + "")) {
-                    return getSymbol(c);
+                    return getSymbol();
                 }
 
                 throw new Exception("syntax error");
@@ -70,7 +72,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         }
     }
 
-    private LexicalUnit getNunber() throws Exception {
+    private LexicalUnit getNumber() throws Exception {
         String target = "";
         Boolean decimalFlag = false;
 
@@ -98,19 +100,20 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         }
     }
 
-    private LexicalUnit getSymbol(char c) throws Exception {
-        String target = c + "";
+    private LexicalUnit getSymbol() throws Exception {
+        String target = "";
 
         while(true) {
             int ci = reader.read();
-            if(ci < 0) return SYMBOL_MAP.get(target);
-            target += (char) ci;
 
-            if(SYMBOL_MAP.containsKey(target)) {
+            if(ci < 0) return SYMBOL_MAP.get(target);
+            char c = (char) ci;
+
+            if(SYMBOL_MAP.containsKey(target + c)) {
+                target += c;
                 continue;
             } else {
                 reader.unread(ci);
-                target = target.substring(0, target.length() - 1);
                 return SYMBOL_MAP.get(target);
             }
         }
