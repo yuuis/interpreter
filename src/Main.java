@@ -20,9 +20,7 @@ public class Main {
                 while(true) {
                     lexicalUnit = lexicalAnalyzer.get();
                     System.out.println(lexicalUnit);
-                    if(lexicalUnit.getType() == LexicalType.EOF) {
-                        break;
-                    }
+                    if(lexicalUnit.getType() == LexicalType.EOF) break;
                 }
             } catch (Exception e) {
                 System.out.println(e);

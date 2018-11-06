@@ -28,24 +28,16 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                 }
 
                 // when alphabet
-                if((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z')) {
-                    return getString();
-                }
+                if((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z')) return getString();
 
                 // when number
-                if(c >= '0' && c <= '9') {
-                    return getNumber();
-                }
+                if(c >= '0' && c <= '9') return getNumber();
 
                 // when literal
-                if(c == '"') {
-                    return getLiteral();
-                }
+                if(c == '"') return getLiteral();
 
                 // when symbol
-                if(SYMBOL_MAP.containsKey(c + "")) {
-                    return getSymbol();
-                }
+                if(SYMBOL_MAP.containsKey(c + "")) return getSymbol();
 
                 throw new Exception("character cant be interpreted");
             }
@@ -57,8 +49,10 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
         while(true) {
             int ci = reader.read();
-            char c = (char) ci;
+
             if(ci < 0) break;
+            char c = (char) ci;
+
             if(((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'  && c <= '9'))) {
                 target += c;
                 continue;
@@ -66,11 +60,8 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             reader.unread(ci);
             break;
         }
-        if(RESERVED_WORD_MAP.containsKey(target)) {
-            return RESERVED_WORD_MAP.get(target);
-        } else {
-            return new LexicalUnit(LexicalType.NAME, new ValueImpl(target));
-        }
+        if(RESERVED_WORD_MAP.containsKey(target)) return RESERVED_WORD_MAP.get(target);
+        else return new LexicalUnit(LexicalType.NAME, new ValueImpl(target));
     }
 
     private LexicalUnit getNumber() throws Exception {
@@ -79,9 +70,10 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
         while(true) {
             int ci = reader.read();
-            char c = (char) ci;
 
             if(ci < 0) break;
+            char c = (char) ci;
+
             if (c >= '0' && c <= '9') {
                 target += c;
                 continue;
@@ -90,16 +82,13 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                 target += c;
                 continue;
             } else if(c == '.' && decimalFlag) {
-                throw new Exception("too many dots.");
+                throw new Exception("too many dots");
             }
             reader.unread(ci);
             break;
         }
-        if(decimalFlag) {
-            return new LexicalUnit(LexicalType.DOUBLEVAL, new ValueImpl(Double.parseDouble(target)));
-        } else {
-            return new LexicalUnit(LexicalType.INTVAL, new ValueImpl(Integer.parseInt(target)));
-        }
+        if(decimalFlag) return new LexicalUnit(LexicalType.DOUBLEVAL, new ValueImpl(Double.parseDouble(target)));
+        else return new LexicalUnit(LexicalType.INTVAL, new ValueImpl(Integer.parseInt(target)));
     }
 
     private LexicalUnit getSymbol() throws Exception {
@@ -123,9 +112,11 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
     private LexicalUnit getLiteral() throws Exception {
         String target = "";
+        reader.read();
 
         while(true) {
             int ci = reader.read();
+
             if(ci < 0) break;
             char c = (char) ci;
 
