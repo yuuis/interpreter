@@ -102,7 +102,6 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
             if(SYMBOL_MAP.containsKey(target + c)) {
                 target += c;
-                continue;
             } else {
                 reader.unread(ci);
                 return SYMBOL_MAP.get(target);
