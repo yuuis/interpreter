@@ -11,8 +11,7 @@ public class Main {
     public static void main(String[] args) {
         final String SOURCE_PATH = "test1.bas";
         try {
-            FileReader fileReader;
-            fileReader = new FileReader(new File(SOURCE_PATH));
+            FileReader fileReader = new FileReader(new File(SOURCE_PATH));
             try {
                 LexicalUnit lexicalUnit;
                 PushbackReader reader  = new PushbackReader(fileReader);
