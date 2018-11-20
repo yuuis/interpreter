@@ -1,6 +1,6 @@
 package newlang4;
 
-public class Node {
+public abstract class Node {
     protected NodeType type;
     protected Environment env;
 
@@ -20,7 +20,7 @@ public class Node {
         return type;
     }
 
-    public boolean Parse() throws Exception {
+    public boolean parse() throws Exception {
         return true;
     }
 
