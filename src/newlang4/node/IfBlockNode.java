@@ -1,4 +1,6 @@
 package newlang4.node;
 
-public class IfBlockNode {
+import newlang4.Node;
+
+public class IfBlockNode extends Node {
 }
