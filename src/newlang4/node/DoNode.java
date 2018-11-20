@@ -1,4 +1,6 @@
 package newlang4.node;
 
-public class DoNode {
+import newlang4.Node;
+
+public class DoNode extends Node {
 }
