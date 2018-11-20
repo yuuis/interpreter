@@ -6,7 +6,7 @@ import newlang4.NodeType;
 
 public class ProgramNode extends Node {
 
-    public boolean Parse() throws Exception {
+    public boolean parse() throws Exception {
         // nodeごとの処理
         return true;
     }
@@ -20,7 +20,6 @@ public class ProgramNode extends Node {
         return true;
     }
 
-    private static Node getMatchNode(LexicalUnit lexicalUnit) {
-
+    private static Node getHandler(LexicalUnit lexicalUnit) {
     }
 }
