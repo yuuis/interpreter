@@ -1,15 +1,15 @@
 package newlang4;
 
 import newlang3.*;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 public class Environment {
     LexicalAnalyzer input;
-    Hashtable var_table;
+    HashMap var_map;
 
     public Environment(LexicalAnalyzer my_input) {
         input = my_input;
-        var_table = new Hashtable();
+        var_map = new HashMap();
     }
 
     public LexicalAnalyzer getInput() {
