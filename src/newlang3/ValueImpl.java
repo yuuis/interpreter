@@ -3,47 +3,50 @@ package newlang3;
 public class ValueImpl implements Value{
 
     private ValueType type;
-    private String val;
+    private String sval;
+    private Integer ival;
+    private Double dval;
+    private Boolean bval;
 
 
     public ValueImpl(String s) {
         type = ValueType.STRING;
-        val = s;
+        sval = s;
     }
 
     public ValueImpl(int i) {
         type = ValueType.INTEGER;
-        val = i + "";
+        ival = i;
     }
 
     public ValueImpl(double d) {
         type = ValueType.DOUBLE;
-        val = d + "";
+        dval = d;
     }
 
     public ValueImpl(boolean b) {
         type = ValueType.BOOL;
-        val = b + "";
+        bval = b;
     }
 
     @Override
     public String getSValue() {
-        return val;
+        return sval;
     }
 
     @Override
     public int getIntValue() {
-        return Integer.parseInt(val);
+        return ival;
     }
 
     @Override
     public double getDoubleValue() {
-        return Double.parseDouble(val);
+        return dval;
     }
 
     @Override
     public boolean getBooleanValue() {
-        return Boolean.parseBoolean(val);
+        return bval;
     }
 
     @Override

@@ -22,7 +22,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             } else {
                 char c = (char) ci;
 
-                if((c == ' ') || (c == '\t') || (c == '\n')) {
+                if((c == ' ') || (c == '\t')) {
                     reader.read();
                     continue;
                 }
