@@ -61,7 +61,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             break;
         }
         if(RESERVED_WORD_MAP.containsKey(target)) return RESERVED_WORD_MAP.get(target);
-        else return new LexicalUnit(LexicalType.NAME, new ValueImpl(target));
+        else return new LexicalUnit(LexicalType.NAME, new ValueImpl(target, ValueType.STRING));
     }
 
     private LexicalUnit getNumber() throws Exception {
@@ -87,8 +87,8 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             reader.unread(ci);
             break;
         }
-        if(decimalFlag) return new LexicalUnit(LexicalType.DOUBLEVAL, new ValueImpl(Double.parseDouble(target)));
-        else return new LexicalUnit(LexicalType.INTVAL, new ValueImpl(Integer.parseInt(target)));
+        if(decimalFlag) return new LexicalUnit(LexicalType.DOUBLEVAL, new ValueImpl(target, ValueType.DOUBLE));
+        else return new LexicalUnit(LexicalType.INTVAL, new ValueImpl(target, ValueType.INTEGER));
     }
 
     private LexicalUnit getSymbol() throws Exception {
@@ -123,7 +123,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                 target += c;
                 continue;
             }
-            return new LexicalUnit(LexicalType.LITERAL, new ValueImpl(target));
+            return new LexicalUnit(LexicalType.LITERAL, new ValueImpl(target, ValueType.STRING));
         }
         throw new Exception("cant find closing double quote");
     }

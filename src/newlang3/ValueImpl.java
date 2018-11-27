@@ -9,24 +9,22 @@ public class ValueImpl implements Value{
     private Boolean bval;
 
 
-    public ValueImpl(String s) {
-        type = ValueType.STRING;
-        sval = s;
-    }
-
-    public ValueImpl(int i) {
-        type = ValueType.INTEGER;
-        ival = i;
-    }
-
-    public ValueImpl(double d) {
-        type = ValueType.DOUBLE;
-        dval = d;
-    }
-
-    public ValueImpl(boolean b) {
-        type = ValueType.BOOL;
-        bval = b;
+    public ValueImpl(String s, ValueType type) {
+        switch (type) {
+            case INTEGER:
+                ival = Integer.parseInt(s);
+                break;
+            case DOUBLE:
+                dval = Double.parseDouble(s);
+                break;
+            case BOOL:
+                bval = Boolean.parseBoolean(s);
+                break;
+            case STRING:
+                sval = s;
+                break;
+        }
+        this.type = type;
     }
 
     @Override
