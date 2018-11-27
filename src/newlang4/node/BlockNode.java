@@ -1,5 +1,6 @@
 package newlang4.node;
 import newlang3.*;
+import newlang4.Environment;
 import newlang4.Node;
 
 import java.util.Arrays;
@@ -8,6 +9,10 @@ import java.util.Set;
 
 public class BlockNode extends Node {
     static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.IF, LexicalType.WHILE, LexicalType.DO));
+
+    public BlockNode(Environment env) {
+        super(env);
+    }
 
     public static boolean isMatch(LexicalType type) {
         return first.contains(type);

@@ -1,16 +1,19 @@
 package newlang4.node;
 
 import newlang3.*;
+import newlang4.Environment;
 import newlang4.Node;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class StmtNode extends Node {
     static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList());
+    List<Node> child = new ArrayList<Node>();
 
-    public static Node getHandler(LexicalType lexicalType) {
+    public StmtNode(Environment env) {
+        super(env);
+    }
+
+    public static Node getHandler(LexicalType lexicalType, Environment environment) {
         switch (lexicalType) {
 
         }
