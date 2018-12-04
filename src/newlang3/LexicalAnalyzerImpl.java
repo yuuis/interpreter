@@ -1,18 +1,30 @@
 package newlang3;
 
+import newlang4.Node;
+
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     PushbackReader reader;
     static HashMap<String, LexicalUnit> RESERVED_WORD_MAP = new HashMap<>();
     static HashMap<String, LexicalUnit> SYMBOL_MAP = new HashMap<>();
+    List<LexicalUnit> lexicalUnits = new ArrayList<>();
 
     public LexicalAnalyzerImpl(PushbackReader reader) {
         this.reader = reader;
     }
 
     public LexicalUnit get() throws Exception {
+        if(!lexicalUnits.isEmpty()) {
+            int index = lexicalUnits.size() - 1;
+            LexicalUnit unit = lexicalUnits.get(index);
+            lexicalUnits.remove(index);
+            return unit;
+        }
+
         while(true) {
             int ci = reader.read();
             reader.unread(ci);
@@ -170,6 +182,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         return true;
     }
 
-    public void unget(LexicalUnit token) {}
-
+    public void unget(LexicalUnit token) {
+        lexicalUnits.add(token);
+    }
 }
