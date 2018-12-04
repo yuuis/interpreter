@@ -12,36 +12,38 @@ public class StmtListNode extends Node {
     static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.IF, LexicalType.WHILE, LexicalType.DO, LexicalType.NAME, LexicalType.FOR, LexicalType.END));
     List<Node> child = new ArrayList<Node>();
 
-    StmtListNode(Environment env) {
+    private StmtListNode(Environment env) {
         super(env);
         type = NodeType.STMT_LIST;
     }
 
     public boolean parse() throws Exception {
-        LexicalUnit lexicalUnit;
-        lexicalUnit = env.getInput().get();
-        if(StmtNode.isMatch(lexicalUnit.getType())) {
-            Node handler = StmtNode.getHandler(lexicalUnit.getType(), env);
-            handler.parse();
-            return true;
-        } else {
+
+        while(true) {
+            LexicalUnit lexicalUnit = env.getInput().get();
+            env.getInput().unget(lexicalUnit);
+
+            // when statement
+            if(StmtNode.isMatch(lexicalUnit.getType())) {
+                Node stmtHandler = StmtNode.getHandler(lexicalUnit.getType(), env);
+                child.add(stmtHandler);
+                stmtHandler.parse();
+            }
+
+            // when block
+            if(BlockNode.isMatch(lexicalUnit.getType())) {
+                Node blockHandler = StmtNode.getHandler(lexicalUnit.getType(), env);
+                child.add(blockHandler);
+                blockHandler.parse();
+            }
+
             return false;
         }
     }
 
     public static Node getHandler(LexicalType lexicalType, Environment environment) {
         if (!isMatch(lexicalType)) return null;
-        else {
-            switch (lexicalType) {
-                case IF: return new StmtNode(environment);
-                case WHILE: return new StmtNode(environment);
-                case DO: return new StmtNode(environment);
-                case NAME: return new BlockNode(environment);
-                case FOR: return new BlockNode(environment);
-                case END: return new BlockNode(environment);
-                default: return null;
-            }
-        }
+        else return new StmtListNode(environment);
     }
 
     public static boolean isMatch(LexicalType type) {
