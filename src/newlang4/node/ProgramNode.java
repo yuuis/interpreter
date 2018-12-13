@@ -17,12 +17,11 @@ public class ProgramNode extends Node {
     }
 
     public boolean parse() throws Exception {
-        // nodeごとの処理
         return true;
     }
 
-    public static Node getHandler(LexicalUnit lexicalUnit, Environment environment) {
-        return new StmtListNode(environment);
+    public static Node getHandler(LexicalType lexicalType, Environment environment) {
+        return StmtListNode.getHandler(lexicalType, environment);
     }
 
     public static boolean isMatch(LexicalType lexicalType) {

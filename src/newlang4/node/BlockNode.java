@@ -23,7 +23,7 @@ public class BlockNode extends Node {
     public static Node getHandler(LexicalType lexicalType, Environment environment) {
         switch (lexicalType) {
             case IF: return StmtNode.getHandler(lexicalType, environment);
-            case WHILE: return StmtNode.getHandler(lexicalType, environment);
+//            case WHILE: return StmtNode.getHandler(lexicalType, environment);
             case DO: return StmtNode.getHandler(lexicalType, environment);
             default: return null;
         }
