@@ -13,8 +13,12 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     static HashMap<String, LexicalUnit> SYMBOL_MAP = new HashMap<>();
     List<LexicalUnit> lexicalUnits = new ArrayList<>();
 
-    public LexicalAnalyzerImpl(PushbackReader reader) {
-        this.reader = reader;
+//    public LexicalAnalyzerImpl(PushbackReader reader) {
+//        this.reader = reader;
+//    }
+    public LexicalAnalyzerImpl(FileInputStream fileInputStream) throws Exception {
+        Reader inputStreamReader = new InputStreamReader(fileInputStream);
+        this.reader = new PushbackReader(inputStreamReader);
     }
 
     public LexicalUnit get() throws Exception {
@@ -172,8 +176,8 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         SYMBOL_MAP.put("-", new LexicalUnit(LexicalType.SUB));
         SYMBOL_MAP.put("*", new LexicalUnit(LexicalType.MUL));
         SYMBOL_MAP.put("/", new LexicalUnit(LexicalType.DIV));
-        SYMBOL_MAP.put(")", new LexicalUnit(LexicalType.LP));
-        SYMBOL_MAP.put("(", new LexicalUnit(LexicalType.RP));
+        SYMBOL_MAP.put(")", new LexicalUnit(LexicalType.RP));
+        SYMBOL_MAP.put("(", new LexicalUnit(LexicalType.LP));
         SYMBOL_MAP.put(",", new LexicalUnit(LexicalType.COMMA));
         SYMBOL_MAP.put("\n", new LexicalUnit(LexicalType.NL));
     }

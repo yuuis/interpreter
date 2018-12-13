@@ -22,13 +22,13 @@ public class Main {
         lexicalAnalyzer = new LexicalAnalyzerImpl(fileInputStream);
         env = new Environment(lexicalAnalyzer);
         first = lexicalAnalyzer.get();
+        lexicalAnalyzer.unget(first);
 
-        program = ProgramNode.isMatch(env, first);
-        if (program != null && program.Parse()) {
+        program = ProgramNode.getHandler(first.getType(), env);
+        if (program != null && program.parse()) {
             System.out.println(program);
-            System.out.println("value = " + program.getValue());
+//            System.out.println("value = " + program.getValue());
         }
         else System.out.println("syntax error");
     }
-
 }

@@ -4,16 +4,16 @@ import newlang3.LexicalType;
 import newlang3.LexicalUnit;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.PushbackReader;
 
 public class Main {
     public static void main(String[] args) {
         final String SOURCE_PATH = "test1.bas";
-        try(FileReader fileReader = new FileReader(new File(SOURCE_PATH))) {
+        try(FileInputStream fileInputStream = new FileInputStream(SOURCE_PATH)) {
             LexicalUnit lexicalUnit;
-            PushbackReader reader  = new PushbackReader(fileReader);
-            LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzerImpl(reader);
+            LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzerImpl(fileInputStream);
             while(true) {
                 lexicalUnit = lexicalAnalyzer.get();
                 System.out.println(lexicalUnit);
