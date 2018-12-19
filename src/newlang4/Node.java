@@ -20,9 +20,7 @@ public abstract class Node {
         return type;
     }
 
-    public boolean parse() throws Exception {
-        return true;
-    }
+    public void parse() throws Exception {}
 
 //    public Value getValue() throws Exception {
 //        return null;
