@@ -5,23 +5,25 @@ import newlang4.Node;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     PushbackReader reader;
+    int line = 1;
     static HashMap<String, LexicalUnit> RESERVED_WORD_MAP = new HashMap<>();
     static HashMap<String, LexicalUnit> SYMBOL_MAP = new HashMap<>();
     List<LexicalUnit> lexicalUnits = new ArrayList<>();
 
-//    public LexicalAnalyzerImpl(PushbackReader reader) {
-//        this.reader = reader;
-//    }
+
     public LexicalAnalyzerImpl(FileInputStream fileInputStream) throws Exception {
         Reader inputStreamReader = new InputStreamReader(fileInputStream);
         this.reader = new PushbackReader(inputStreamReader);
     }
 
     public LexicalUnit get() throws Exception {
+
+        // check ungot list
         if(!lexicalUnits.isEmpty()) {
             int index = lexicalUnits.size() - 1;
             LexicalUnit unit = lexicalUnits.get(index);
@@ -182,11 +184,26 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         SYMBOL_MAP.put("\n", new LexicalUnit(LexicalType.NL));
     }
 
-    public boolean expect(LexicalType type) {
-        return true;
-    }
+    public boolean expect(LexicalType type) throws Exception { return peep(1).getType() == type; }
 
     public void unget(LexicalUnit token) {
         lexicalUnits.add(token);
+    }
+
+    public int getLine() { return line; }
+
+    public LexicalUnit peep(int c) throws Exception {
+        List<LexicalUnit> temp = new ArrayList<>();
+        for(int i = 0; i < c - 1; i++) {
+            temp.add(get());
+        }
+        LexicalUnit lexicalUnit = get();
+        Iterator<LexicalUnit> it = temp.iterator();
+        while(it.hasNext()) {
+            LexicalUnit lu = it.next();
+            unget(lu);
+            it.remove();
+        }
+        return lexicalUnit;
     }
 }
