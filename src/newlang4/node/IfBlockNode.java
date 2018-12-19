@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class IfBlockNode extends Node {
-    static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList());
+    static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.IF));
 
     private IfBlockNode(Environment env) {
         super(env);
@@ -38,11 +38,11 @@ public class IfBlockNode extends Node {
 
             // when stmt list
             if(StmtListNode.isMatch(next.getType())){
-                Node stmtListHandler = StmtListNode.getHandler(next.getType(), env);
+                Node stmtListHandler = StmtListNode.getHandler(env);
                 if (!stmtListHandler.parse()) return false;
             } else return false;
         } else if(StmtListNode.isMatch(next.getType())) {
-            Node stmtHandler = StmtNode.getHandler(next.getType(), env);
+            Node stmtHandler = StmtNode.getHandler(env);
             if (!stmtHandler.parse()) return false;
         } else {
             return false;
@@ -50,8 +50,7 @@ public class IfBlockNode extends Node {
         return true;
     }
 
-    public static Node getHandler(LexicalType lexicalType, Environment environment) {
-        if(!isMatch(lexicalType)) return null;
+    public static Node getHandler(Environment environment) {
         return new IfBlockNode(environment);
     }
 

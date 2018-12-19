@@ -1,7 +1,6 @@
 package newlang4.node;
 
 import newlang3.LexicalType;
-import newlang3.LexicalUnit;
 import newlang4.Environment;
 import newlang4.Node;
 import newlang4.NodeType;
@@ -9,6 +8,15 @@ import newlang4.NodeType;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+
+// <cond> ::=
+// <expr> <EQ> <expr>
+// | <expr> <GT> <expr>
+// | <expr> <LT> <expr>
+// | <expr> <GE> <expr>
+// | <expr> <LE> <expr>
+// | <expr> <NE> <expr>
 
 public class CondNode extends Node {
     static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList());
@@ -18,13 +26,12 @@ public class CondNode extends Node {
         type = NodeType.COND;
     }
 
-    public boolean parse() throws Exception {
+    public void parse() throws Exception {
 
-        return true;
     }
 
-    public static Node getHandler(LexicalType lexicalType, Environment environment) {
-
+    public static Node getHandler(Environment environment) {
+        return new CondNode(environment);
     }
 
     public static boolean isMatch(LexicalType type) {

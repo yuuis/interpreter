@@ -7,6 +7,12 @@ import newlang4.NodeType;
 
 import java.util.*;
 
+// <stmt_list> ::=
+// <stmt>
+// | <stmt_list> <stmt> <NL>
+// | <block>
+// | <block> <stmt_list>
+
 public class StmtListNode extends Node {
 
     static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.IF, LexicalType.WHILE, LexicalType.DO, LexicalType.NAME, LexicalType.FOR, LexicalType.END));
@@ -17,36 +23,48 @@ public class StmtListNode extends Node {
         type = NodeType.STMT_LIST;
     }
 
-    public boolean parse() throws Exception {
+    public void parse() {
 
-        while(true) {
-            LexicalUnit lexicalUnit = env.getInput().get();
-            env.getInput().unget(lexicalUnit);
+        while (true) {
+            try {
+                LexicalUnit lexicalUnit = env.getInput().peep(1);
 
-            // when statement
-            if(StmtNode.isMatch(lexicalUnit.getType())) {
-                Node stmtHandler = StmtNode.getHandler(lexicalUnit.getType(), env);
-                child.add(stmtHandler);
-                stmtHandler.parse();
+                // when statement
+                if (StmtNode.isMatch(lexicalUnit.getType())) {
+                    Node stmtHandler = StmtNode.getHandler(env);
+                    child.add(stmtHandler);
+                    stmtHandler.parse();
+                }
+
+                // when block
+                if (BlockNode.isMatch(lexicalUnit.getType())) {
+                    Node blockHandler = StmtNode.getHandler(env);
+                    child.add(blockHandler);
+                    blockHandler.parse();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getStackTrace());
+                try {
+                    skipToLn();
+                } catch (Exception ex) {
+                    System.out.println(ex.getStackTrace());
+                }
             }
-
-            // when block
-            if(BlockNode.isMatch(lexicalUnit.getType())) {
-                Node blockHandler = StmtNode.getHandler(lexicalUnit.getType(), env);
-                child.add(blockHandler);
-                blockHandler.parse();
-            }
-
-            return false;
         }
     }
 
-    public static Node getHandler(LexicalType lexicalType, Environment environment) {
-        if (!isMatch(lexicalType)) return null;
-        else return new StmtListNode(environment);
+    public static Node getHandler(Environment environment) {
+        return new StmtListNode(environment);
     }
 
     public static boolean isMatch(LexicalType type) {
         return first.contains(type);
+    }
+
+    private void skipToLn() throws Exception {
+        LexicalType inputType = env.getInput().get().getType();
+        while(inputType != LexicalType.NL) {
+            env.getInput().get();
+        }
     }
 }

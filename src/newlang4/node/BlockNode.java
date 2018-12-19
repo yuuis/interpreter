@@ -16,20 +16,17 @@ public class BlockNode extends Node {
         type = NodeType.BLOCK;
     }
 
-//    public boolean Parse() throws Exception {
-//        return true;
-//    }
+    public static Node getHandler(LexicalType lexicalType, Environment environment) throws Exception {
+        LexicalType inputType = environment.getInput().peep(1).getType();
 
-    public static Node getHandler(LexicalType lexicalType, Environment environment) {
-        switch (lexicalType) {
-            case IF: return StmtNode.getHandler(lexicalType, environment);
-//            case WHILE: return StmtNode.getHandler(lexicalType, environment);
-            case DO: return StmtNode.getHandler(lexicalType, environment);
-            default: return null;
-        }
+        if(IfBlockNode.isMatch(inputType)) return IfBlockNode.getHandler(environment);
+        if(LoopNode.isMatch(inputType)) return LoopNode.getHandler(lexicalType, environment);
+        throw new InternalError("cant make block node. line: " + environment.getInput().getLine());
     }
 
     public static boolean isMatch(LexicalType type) {
         return first.contains(type);
     }
+
+    public String toString() {return "block";}
 }

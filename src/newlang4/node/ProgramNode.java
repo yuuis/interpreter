@@ -16,12 +16,11 @@ public class ProgramNode extends Node {
         type = NodeType.PROGRAM;
     }
 
-    public boolean parse() throws Exception {
-        return true;
+    public void parse() {
     }
 
     public static Node getHandler(LexicalType lexicalType, Environment environment) {
-        return StmtListNode.getHandler(lexicalType, environment);
+        return StmtListNode.getHandler(environment);
     }
 
     public static boolean isMatch(LexicalType lexicalType) {
