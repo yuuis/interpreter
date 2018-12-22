@@ -16,7 +16,7 @@ import static newlang3.LexicalType.*;
 // | <END>
 
 public class StmtNode extends Node {
-    static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.NAME, LexicalType.FOR, LexicalType.END));
+    private final static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.NAME, LexicalType.FOR, LexicalType.END));
     List<Node> child = new ArrayList<Node>();
 
     private StmtNode(Environment env) {
@@ -25,15 +25,19 @@ public class StmtNode extends Node {
     }
 
     public static Node getHandler(Environment environment) throws Exception {
-
         switch (environment.getInput().peep(1).getType()) {
+
             case NAME:
                 LexicalType inputType = environment.getInput().peep(2).getType();
-                // when `<NAME> <EQ>`
-                if(inputType == EQ ) return SubstNode.getHandler(environment);
+
+                // when <NAME> <EQ>
+                if(inputType == EQ ) {
+                    return SubstNode.getHandler(environment);
+                }
+
                 // when `NAME <expr_list>`
                 if(ExprNode.isMatch(inputType)) return CallSubNode.getHandler(environment);
-                throw new Exception("syntax error. line: " + environment.getInput().getLine());
+                throw new Exception("syntax error. missing expr_list. line: " + environment.getInput().getLine());
 
             case FOR:
                 return ForNode.getHandler(environment);

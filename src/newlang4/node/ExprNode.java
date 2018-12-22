@@ -1,13 +1,11 @@
 package newlang4.node;
 
-import newlang3.LexicalType;
+import newlang3.*;
 import newlang4.Environment;
 import newlang4.Node;
 import newlang4.NodeType;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 // <expr> ::=
 // <expr> <ADD> <expr>
@@ -23,16 +21,125 @@ import java.util.Set;
 // | <call_func>
 
 public class ExprNode extends Node {
-    static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.NAME, LexicalType.SUB, LexicalType.LP, LexicalType.INTVAL, LexicalType.DOUBLEVAL, LexicalType.LITERAL));
+    private final static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.NAME, LexicalType.SUB, LexicalType.LP, LexicalType.INTVAL, LexicalType.DOUBLEVAL, LexicalType.LITERAL));
 
+    // operator and priority map
+    private static final Map<LexicalType, Integer> operators_map = new HashMap<>();
+    static {
+        operators_map.put(LexicalType.DIV,1);
+        operators_map.put(LexicalType.MUL,2);
+        operators_map.put(LexicalType.SUB,3);
+        operators_map.put(LexicalType.ADD,4);
+    }
+    private Node left;
+    private Node right;
+    private LexicalType operator;
 
     private ExprNode(Environment env) {
         super(env);
         type = NodeType.EXPR;
     }
 
-    public void parse() throws Exception {
+    private ExprNode(Node left, Node right, LexicalType operator){
+        this.left = left;
+        this.right = right;
+        this.operator = operator;
+    }
 
+    public void parse() throws Exception {
+        List<Node> exprs = new ArrayList<>();
+        List<LexicalType> operators = new ArrayList<>();
+
+        while(true) {
+            // operand operator operand operator operand ...
+
+            // check operand
+            switch (env.getInput().peep(1).getType()) {
+                case SUB:
+                    LexicalType inputType = env.getInput().peep(2).getType();
+
+                    // check value
+                    if ((inputType == LexicalType.INTVAL) || (inputType == LexicalType.DOUBLEVAL) || (inputType == LexicalType.LP)) {
+
+                        // skip <SUB>
+                        env.getInput().get();
+
+                        // add minus value
+                        exprs.add(ConstNode.getHandler(new ValueImpl("-1", ValueType.INTEGER), env));
+                        addOperator(exprs, operators, LexicalType.MUL);
+                    } else
+                        throw new Exception("syntax error. SUB is invalid location. line: " + env.getInput().getLine());
+                    break;
+
+                case LP:
+                    // skip <LP>
+                    env.getInput().get();
+
+                    // add exprs
+                    Node exprHandler = ExprNode.getHandler(env);
+                    exprHandler.parse();
+                    exprs.add(exprHandler);
+
+                    // check close <RP>
+                    if (env.getInput().get().getType() != LexicalType.RP)
+                        throw new Exception("syntax error. missing close bracket. line: " + env.getInput().getLine());
+                    break;
+
+                case NAME:
+                    // when <NAME><LP> -> function
+                    if (env.getInput().peep(2).getType() == LexicalType.LP) {
+                        Node callSub = CallSubNode.getHandler(env);
+                        callSub.parse();
+                        exprs.add(callSub);
+
+                        // when variable
+                    } else exprs.add(VariableNode.getHandler(env.getInput().get().getValue(), env));
+                    break;
+
+                case INTVAL:
+                case DOUBLEVAL:
+                case LITERAL:
+                    exprs.add(ConstNode.getHandler(env.getInput().get().getValue(), env));
+                    break;
+                default:
+                    throw new Exception("syntax error. exprsession starts wrong node. line: " + env.getInput().getLine());
+            }
+
+            // check operator and add operator
+            if (operators_map.containsKey(env.getInput().peep(1).getType())) {
+                addOperator(exprs, operators, env.getInput().get().getType());
+            } else break;
+
+        }
+
+        for(int i = operators.size() - 1; i >= 0; i--) {
+            if (operators.size() == 1) {
+                left=exprs.get(0);
+                right=exprs.get(1);
+                operator=operators.get(0);
+                return;
+            }
+            exprs.add(new ExprNode(exprs.get(exprs.size() -2), exprs.get(exprs.size() -1), operators.get(i)));
+            exprs.remove(exprs.size() -3);
+            exprs.remove(exprs.size() -2);
+        }
+        left = exprs.get(0);
+    }
+
+    // conversion to reverse polish notation
+    // create expr for each operation
+    private void addOperator(List<Node> rightList, List<LexicalType> operatorList, LexicalType operator) throws Exception {
+        for(int i = operatorList.size()-1; i >= 0; i--){
+            boolean flag = false;
+            if (operators_map.get(operatorList.get(i))<operators_map.get(operator)){
+                flag = true;
+                rightList.add(new ExprNode(rightList.get(rightList.size()-2),rightList.get(rightList.size()-1),operatorList.get(i)));
+                rightList.remove(rightList.size()-3);
+                rightList.remove(rightList.size()-2);
+                operatorList.remove(i);
+            } else if (flag && operators_map.get(operatorList.get(i))>=operators_map.get(operator)) break;
+        }
+        operatorList.add(operator);
     }
 
     public static Node getHandler(Environment environment) {
@@ -44,14 +151,11 @@ public class ExprNode extends Node {
     }
 
     public String toString() {
-        return "expr";
+        String temp = left.toString();
+        if (operator != null) {
+            temp += " " + operator.toString() + " ";
+            temp += right.toString();
+        }
+        return temp;
     }
 }
-
-
-//  オペランド オペレータ オペランド の順でしかない
-//  最後は必ずオペランド
-//  getしてみて name, 定数, () 以外が来たら終了
-//  getOperand, getOperatorをつくってlistに入れまくる
-//  ()がきたら新しくexprを新しく作る
-//  まとめられるもの3つをnodeにして置き換えていく

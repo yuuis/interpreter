@@ -5,10 +5,13 @@ import newlang4.Environment;
 import newlang4.Node;
 import newlang4.NodeType;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+// <program> ::=
+// <stmt_list>
 
 public class ProgramNode extends Node {
+    static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.IF, LexicalType.WHILE, LexicalType.DO, LexicalType.NAME, LexicalType.FOR, LexicalType.END));
     List<Node> child = new ArrayList<Node>();
 
     private ProgramNode(Environment env) {
@@ -16,10 +19,9 @@ public class ProgramNode extends Node {
         type = NodeType.PROGRAM;
     }
 
-    public void parse() {
-    }
+    public void parse() {}
 
-    public static Node getHandler(LexicalType lexicalType, Environment environment) {
+    public static Node getHandler(Environment environment) {
         return StmtListNode.getHandler(environment);
     }
 

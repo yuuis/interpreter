@@ -11,10 +11,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ConstNode extends Node {
-    static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.SUB, LexicalType.INTVAL, LexicalType.DOUBLEVAL, LexicalType.LITERAL));
+    private final static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.SUB, LexicalType.INTVAL, LexicalType.DOUBLEVAL, LexicalType.LITERAL));
     private Value value;
 
-    private ConstNode(Environment env, Value value) {
+    private ConstNode(Value value, Environment env) {
         super(env);
         switch (value.getType()) {
             case INTEGER:
@@ -28,21 +28,30 @@ public class ConstNode extends Node {
                 break;
             default: throw new InternalError("syntax error. wrong value for const. line: " + env.getInput().getLine());
         }
+        this.value = value;
     }
 
     public static Node getHandler(Value value, Environment environment) {
-        return new ConstNode(environment, value);
+        return new ConstNode(value, environment);
     }
 
     public static boolean isMatch(LexicalType type) {
         return first.contains(type);
     }
 
-    public Value getValue() {
-        return value;
-    }
-
     public String toString() {
-        return "const: " + value;
+        String temp = "const: ";
+        switch (type) {
+            case INT_CONSTANT:
+                temp += value.getIntValue();
+                break;
+            case DOUBLE_CONSTANT:
+                temp += value.getDoubleValue();
+                break;
+            case STRING_CONSTANT:
+                temp += value.getSValue();
+                break;
+        }
+        return temp;
     }
 }

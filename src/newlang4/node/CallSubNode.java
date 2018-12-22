@@ -24,7 +24,7 @@ public class CallSubNode extends Node {
         type = NodeType.FUNCTION_CALL;
     }
 
-    public boolean parse() throws Exception {
+    public void parse() throws Exception {
         boolean bracketFlag = false;
         LexicalType inputType = env.getInput().peep(1).getType();
 
@@ -47,8 +47,6 @@ public class CallSubNode extends Node {
         if(bracketFlag) {
             if(env.getInput().get().getType() != LexicalType.RP) throw new InternalError("syntax error. missing closing bracket. line: " + env.getInput().getLine());
         }
-
-        return true;
     }
 
     public static Node getHandler(Environment environment) {

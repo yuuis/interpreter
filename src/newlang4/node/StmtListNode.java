@@ -15,7 +15,7 @@ import java.util.*;
 
 public class StmtListNode extends Node {
 
-    static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.IF, LexicalType.WHILE, LexicalType.DO, LexicalType.NAME, LexicalType.FOR, LexicalType.END));
+    private final static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.IF, LexicalType.WHILE, LexicalType.DO, LexicalType.NAME, LexicalType.FOR, LexicalType.END));
     List<Node> child = new ArrayList<Node>();
 
     private StmtListNode(Environment env) {
@@ -27,6 +27,11 @@ public class StmtListNode extends Node {
 
         while (true) {
             try {
+                while(env.getInput().peep(1).getType() == LexicalType.NL) {
+                    // skip <NL>
+                    env.getInput().get();
+                }
+
                 LexicalUnit lexicalUnit = env.getInput().peep(1);
 
                 // when statement
@@ -38,16 +43,18 @@ public class StmtListNode extends Node {
 
                 // when block
                 if (BlockNode.isMatch(lexicalUnit.getType())) {
-                    Node blockHandler = StmtNode.getHandler(env);
+                    Node blockHandler = BlockNode.getHandler(env);
                     child.add(blockHandler);
                     blockHandler.parse();
                 }
+
+                if(!StmtNode.isMatch(lexicalUnit.getType()) && !BlockNode.isMatch(lexicalUnit.getType())) break;
             } catch (Exception e) {
-                System.out.println(e.getStackTrace());
+                System.out.println(e.fillInStackTrace());
                 try {
                     skipToLn();
                 } catch (Exception ex) {
-                    System.out.println(ex.getStackTrace());
+                    System.out.println(ex.fillInStackTrace());
                 }
             }
         }
@@ -66,5 +73,15 @@ public class StmtListNode extends Node {
         while(inputType != LexicalType.NL) {
             env.getInput().get();
         }
+    }
+
+    public String toString() {
+        String temp = "";
+
+        for (Node ch : child) {
+            temp += ch.toString();
+        }
+
+        return temp;
     }
 }
