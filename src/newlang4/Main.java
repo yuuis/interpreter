@@ -18,13 +18,13 @@ public class Main {
         Node program;
 
         System.out.println("basic parser");
-        fileInputStream = new FileInputStream("test.txt");
+        fileInputStream = new FileInputStream("test1.bas");
         lexicalAnalyzer = new LexicalAnalyzerImpl(fileInputStream);
         env = new Environment(lexicalAnalyzer);
         first = lexicalAnalyzer.get();
         lexicalAnalyzer.unget(first);
 
-        program = ProgramNode.getHandler(first.getType(), env);
+        program = ProgramNode.getHandler(env);
         if (program != null) {
             program.parse();
             System.out.println(program);
