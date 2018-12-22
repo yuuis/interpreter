@@ -28,6 +28,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             int index = lexicalUnits.size() - 1;
             LexicalUnit unit = lexicalUnits.get(index);
             lexicalUnits.remove(index);
+            if(unit.getType() == LexicalType.NL) line++;
             return unit;
         }
 
@@ -57,7 +58,9 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                 // when symbol
                 if(SYMBOL_MAP.containsKey(c + "")) return getSymbol();
 
-                throw new Exception("character cant be interpreted");
+                System.out.println(c);
+                throw new InternalError("shinda");
+//                throw new Exception("character cant be interpreted");
             }
         }
     }
@@ -187,6 +190,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     public boolean expect(LexicalType type) throws Exception { return peep(1).getType() == type; }
 
     public void unget(LexicalUnit token) {
+        if (token.getType() == LexicalType.NL) line--;
         lexicalUnits.add(token);
     }
 
@@ -194,16 +198,24 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
     public LexicalUnit peep(int c) throws Exception {
         List<LexicalUnit> temp = new ArrayList<>();
+
         for(int i = 0; i < c - 1; i++) {
             temp.add(get());
         }
-        LexicalUnit lexicalUnit = get();
-        Iterator<LexicalUnit> it = temp.iterator();
-        while(it.hasNext()) {
-            LexicalUnit lu = it.next();
-            unget(lu);
-            it.remove();
+
+        LexicalUnit lu = get();
+        temp.add(lu);
+
+//        while(it.hasNext()) {
+//            lu = it.next();
+//            unget(lu);
+//            it.remove();
+//        }
+
+        while(!temp.isEmpty()) {
+            unget(temp.get(temp.size() - 1));
+            temp.remove(temp.size() - 1);
         }
-        return lexicalUnit;
+        return lu;
     }
 }
