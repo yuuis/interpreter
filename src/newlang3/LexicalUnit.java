@@ -25,13 +25,13 @@ public class LexicalUnit {
   public String toString() {
     switch(type) {
       case LITERAL:
-            return "LITERAL:\t" + value.getSValue();
+            return "LITERAL: " + value.getSValue();
       case NAME:
-        return "NAME:\t" + value.getSValue();
+        return "NAME: " + value.getSValue();
       case DOUBLEVAL:
-        return "DOUBLEVAL:\t" + value.getDoubleValue();
+        return "DOUBLEVAL: " + value.getDoubleValue();
       case INTVAL:
-        return "INTVAL:\t" + value.getIntValue();
+        return "INTVAL: " + value.getIntValue();
       case IF:
         return ("IF");
       case THEN:
