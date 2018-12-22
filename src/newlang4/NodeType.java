@@ -12,6 +12,7 @@ public enum NodeType {
     COND,
     EXPR_LIST,
     EXPR,
+    VARIABLE,
     FUNCTION_CALL,
     STRING_CONSTANT,
     INT_CONSTANT,
