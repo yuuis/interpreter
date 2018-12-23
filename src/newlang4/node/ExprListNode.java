@@ -54,4 +54,12 @@ public class ExprListNode extends Node {
     public static boolean isMatch(LexicalType type) {
         return first.contains(type);
     }
+
+    public String toString() {
+        String temp = "expr list: ";
+        for(int i = 0; i < child.size(); i++) {
+            temp += child.get(i);
+        }
+        return temp;
+    }
 }
