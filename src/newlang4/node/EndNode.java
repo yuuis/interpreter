@@ -17,7 +17,12 @@ public class EndNode extends Node {
         type = NodeType.END;
     }
 
-    public void parse() {}
+    public void parse() throws Exception {
+        if(env.getInput().peep(1).getType() == LexicalType.END) {
+            // skip <END>
+            env.getInput().get();
+        } else throw new Exception("syntax error. missing END. line: " + env.getInput().getLine());
+    }
 
     public static Node getHandler(Environment environment) {
         return new EndNode(environment);
