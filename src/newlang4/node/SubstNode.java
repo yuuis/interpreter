@@ -27,7 +27,7 @@ public class SubstNode extends Node {
         // get <leftvalue>
         if (env.getInput().peep(1).getType() == LexicalType.NAME) {
             left = env.getInput().get().getValue().getSValue();
-        } else throw new Exception("syntax error. assign to not name line: " + env.getInput().getLine());
+        } else throw new Exception("syntax error. assign to not name. line: " + env.getInput().getLine());
 
         // check <EQ> and skip
         if (env.getInput().peep(1).getType() == LexicalType.EQ) {
