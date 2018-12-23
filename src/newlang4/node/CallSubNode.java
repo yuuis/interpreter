@@ -57,5 +57,5 @@ public class CallSubNode extends Node {
         return first.contains(type);
     }
 
-    public String toString() { return "function: " + name + "(" + arguments + ")"; }
+    public String toString() { return "function: " + name + "(" + arguments + ")\n"; }
 }
