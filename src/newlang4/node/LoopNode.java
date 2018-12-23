@@ -72,31 +72,27 @@ public class LoopNode extends Node {
             env.getInput().get();
 
             doWhileFlag = true;
-            if (!doBlockCond()) {
-                // check <NL>
-                if (env.getInput().peep(1).getType() == LexicalType.NL) {
-                    // skip <NL>
-                    env.getInput().get();
-                } else throw new Exception("syntax error. missing new line. line: " + env.getInput().getLine());
 
-                // check <stmt_list>
-                if (StmtListNode.isMatch(env.getInput().peep(1).getType())) {
-                    process = StmtListNode.getHandler(env);
-                    process.parse();
-                } else throw new Exception("syntax error. missing process for DO. line: " + env.getInput().getLine());
+            // check <cond>
+            doBlockCond();
 
-                // check <NL>
-                if (env.getInput().peep(1).getType() == LexicalType.NL) {
-                    // skip <NL>
-                    env.getInput().get();
-                } else throw new Exception("syntax error. missing new line. line: " + env.getInput().getLine());
+            // check <NL>
+            if (env.getInput().peep(1).getType() == LexicalType.NL) {
+                // skip <NL>
+                env.getInput().get();
+            } else throw new Exception("syntax error. missing new line. line: " + env.getInput().getLine());
 
-                // check <LOOP>
-                if (env.getInput().peep(1).getType() == LexicalType.LOOP) {
-                    // skip <LOOP>
-                    env.getInput().get();
-                } else throw new Exception("syntax error. missing LOOP. line: " + env.getInput().getLine());
-            }
+            // check <stmt_list>
+            if (StmtListNode.isMatch(env.getInput().peep(1).getType())) {
+                process = StmtListNode.getHandler(env);
+                process.parse();
+            } else throw new Exception("syntax error. missing process for DO. line: " + env.getInput().getLine());
+
+            // check <LOOP>
+            if (env.getInput().peep(1).getType() == LexicalType.LOOP) {
+                // skip <LOOP>
+                env.getInput().get();
+            } else throw new Exception("syntax error. missing LOOP. line: " + env.getInput().getLine());
 
             // check condition
             if (condition == null) {
