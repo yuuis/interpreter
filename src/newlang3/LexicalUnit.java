@@ -90,8 +90,6 @@ public class LexicalUnit {
         return ("LOOP");
       case TO:
         return ("TO");
-      case PRINT:
-        return ("PRINT");
       case WEND:
         return ("WEND");
       case ELSEIF:

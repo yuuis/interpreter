@@ -37,7 +37,6 @@ public enum LexicalType {
     COMMA, // ,
     LOOP, // LOOP
     TO, // TO
-    PRINT,
     WEND, // WEND
     EOF, // end of file
 }
