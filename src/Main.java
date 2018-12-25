@@ -16,9 +16,12 @@ public class Main {
         LexicalUnit first;
         Environment env;
         Node program;
+        String fileName = "test1.bas";
 
         System.out.println("basic parser");
-        fileInputStream = new FileInputStream("test1.bas");
+
+        if (args.length > 0) fileName = args[0];
+        fileInputStream = new FileInputStream(fileName);
         lexicalAnalyzer = new LexicalAnalyzerImpl(fileInputStream);
         env = new Environment(lexicalAnalyzer);
         first = lexicalAnalyzer.get();
