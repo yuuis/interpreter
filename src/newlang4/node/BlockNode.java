@@ -28,5 +28,5 @@ public class BlockNode extends Node {
         return first.contains(type);
     }
 
-    public String toString() {return "block";}
+    public String toString() { return "block"; }
 }
