@@ -28,18 +28,17 @@ public class ExprListNode extends Node {
             child.add(exprHandler);
         } else throw new Exception("syntax error. wrong argument for call function. line: " + env.getInput().getLine());
 
-
         // loop comma and expr
         while(true) {
             LexicalType inputType = env.getInput().get().getType();
 
             // when comma
-            if(inputType == LexicalType.COMMA) {
+            if (inputType == LexicalType.COMMA) {
                 env.getInput().get();
             } else break;
 
             // when expr
-            if(ExprNode.isMatch(inputType)) {
+            if (ExprNode.isMatch(inputType)) {
                 Node exprHandler = ExprNode.getHandler(env);
                 child.add(exprHandler);
                 exprHandler.parse();
@@ -57,7 +56,7 @@ public class ExprListNode extends Node {
 
     public String toString() {
         String temp = "expr list: ";
-        for(int i = 0; i < child.size(); i++) {
+        for (int i = 0; i < child.size(); i++) {
             temp += child.get(i);
         }
         return temp;

@@ -19,8 +19,8 @@ public class BlockNode extends Node {
     public static Node getHandler(Environment environment) throws Exception {
         LexicalType inputType = environment.getInput().peep(1).getType();
 
-        if(IfBlockNode.isMatch(inputType)) return IfBlockNode.getHandler(environment);
-        if(LoopNode.isMatch(inputType)) return LoopNode.getHandler(environment);
+        if (IfBlockNode.isMatch(inputType)) return IfBlockNode.getHandler(environment);
+        if (LoopNode.isMatch(inputType)) return LoopNode.getHandler(environment);
         throw new InternalError("cant make block node. line: " + environment.getInput().getLine());
     }
 

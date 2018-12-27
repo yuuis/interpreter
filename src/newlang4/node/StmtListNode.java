@@ -48,7 +48,7 @@ public class StmtListNode extends Node {
                     blockHandler.parse();
                 }
 
-                if(!StmtNode.isMatch(lexicalUnit.getType()) && !BlockNode.isMatch(lexicalUnit.getType())) break;
+                if (!StmtNode.isMatch(lexicalUnit.getType()) && !BlockNode.isMatch(lexicalUnit.getType())) break;
             } catch (Exception e) {
                 System.out.println(e.fillInStackTrace());
                 try {

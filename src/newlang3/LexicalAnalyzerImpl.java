@@ -24,11 +24,11 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     public LexicalUnit get() throws Exception {
 
         // check ungot list
-        if(!lexicalUnits.isEmpty()) {
+        if (!lexicalUnits.isEmpty()) {
             int index = lexicalUnits.size() - 1;
             LexicalUnit unit = lexicalUnits.get(index);
             lexicalUnits.remove(index);
-            if(unit.getType() == LexicalType.NL) line++;
+            if (unit.getType() == LexicalType.NL) this.line++;
             return unit;
         }
 
@@ -36,27 +36,27 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             int ci = reader.read();
             reader.unread(ci);
 
-            if(ci < 0) {
+            if (ci < 0) {
                 return new LexicalUnit(LexicalType.EOF);
             } else {
                 char c = (char) ci;
 
-                if((c == ' ') || (c == '\t')) {
+                if ((c == ' ') || (c == '\t')) {
                     reader.read();
                     continue;
                 }
 
                 // when alphabet
-                if((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z')) return getString();
+                if ((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z')) return getString();
 
                 // when number
-                if(c >= '0' && c <= '9') return getNumber();
+                if (c >= '0' && c <= '9') return getNumber();
 
                 // when literal
-                if(c == '"') return getLiteral();
+                if (c == '"') return getLiteral();
 
                 // when symbol
-                if(SYMBOL_MAP.containsKey(c + "")) return getSymbol();
+                if (SYMBOL_MAP.containsKey(c + "")) return getSymbol();
 
                 System.out.println(c);
                 throw new InternalError("shinda");
@@ -71,17 +71,17 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         while(true) {
             int ci = reader.read();
 
-            if(ci < 0) break;
+            if (ci < 0) break;
             char c = (char) ci;
 
-            if(((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'  && c <= '9'))) {
+            if (((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'  && c <= '9'))) {
                 target += c;
                 continue;
             }
             reader.unread(ci);
             break;
         }
-        if(RESERVED_WORD_MAP.containsKey(target)) return RESERVED_WORD_MAP.get(target);
+        if (RESERVED_WORD_MAP.containsKey(target)) return RESERVED_WORD_MAP.get(target);
         else return new LexicalUnit(LexicalType.NAME, new ValueImpl(target, ValueType.STRING));
     }
 
@@ -92,7 +92,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         while(true) {
             int ci = reader.read();
 
-            if(ci < 0) break;
+            if (ci < 0) break;
             char c = (char) ci;
 
             if (c >= '0' && c <= '9') {
@@ -102,13 +102,13 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                 decimalFlag = true;
                 target += c;
                 continue;
-            } else if(c == '.' && decimalFlag) {
+            } else if (c == '.' && decimalFlag) {
                 throw new Exception("too many dots");
             }
             reader.unread(ci);
             break;
         }
-        if(decimalFlag) return new LexicalUnit(LexicalType.DOUBLEVAL, new ValueImpl(target, ValueType.DOUBLE));
+        if (decimalFlag) return new LexicalUnit(LexicalType.DOUBLEVAL, new ValueImpl(target, ValueType.DOUBLE));
         else return new LexicalUnit(LexicalType.INTVAL, new ValueImpl(target, ValueType.INTEGER));
     }
 
@@ -118,10 +118,10 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         while(true) {
             int ci = reader.read();
 
-            if(ci < 0) return SYMBOL_MAP.get(target);
+            if (ci < 0) return SYMBOL_MAP.get(target);
             char c = (char) ci;
 
-            if(SYMBOL_MAP.containsKey(target + c)) {
+            if (SYMBOL_MAP.containsKey(target + c)) {
                 target += c;
             } else {
                 reader.unread(ci);
@@ -137,10 +137,10 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         while(true) {
             int ci = reader.read();
 
-            if(ci < 0) break;
+            if (ci < 0) break;
             char c = (char) ci;
 
-            if(c != '"') {
+            if (c != '"') {
                 target += c;
                 continue;
             }

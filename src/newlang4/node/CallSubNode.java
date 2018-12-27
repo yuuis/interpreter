@@ -32,20 +32,21 @@ public class CallSubNode extends Node {
         this.name = env.getInput().get().getValue().getSValue();
 
         // when `(`
-        if(inputType == LexicalType.LP) {
+        if (inputType == LexicalType.LP) {
             bracketFlag = true;
             env.getInput().get();
         }
 
         // get arguments and parse
-        if(ExprListNode.isMatch(inputType)) {
+        if (ExprListNode.isMatch(inputType)) {
             this.arguments = ExprListNode.getHandler(env);
             this.arguments.parse();
         }
 
         // check bracket is closed
-        if(bracketFlag) {
-            if(env.getInput().get().getType() != LexicalType.RP) throw new InternalError("syntax error. missing closing bracket. line: " + env.getInput().getLine());
+        if (bracketFlag) {
+            if(env.getInput().get().getType() == LexicalType.RP) env.getInput().get();
+            else throw new InternalError("syntax error. missing closing bracket. line: " + env.getInput().getLine());
         }
     }
 
