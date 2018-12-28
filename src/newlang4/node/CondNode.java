@@ -2,6 +2,8 @@ package newlang4.node;
 
 import newlang3.LexicalType;
 import newlang3.Value;
+import newlang3.ValueImpl;
+import newlang3.ValueType;
 import newlang4.Environment;
 import newlang4.Node;
 import newlang4.NodeType;
@@ -62,7 +64,29 @@ public class CondNode extends Node {
     }
 
     public Value getValue() throws Exception {
-        return null;
+        Value leftVal = left.getValue();
+        Value rightVal = right.getValue();
+
+        // null check
+        if (leftVal == null || rightVal == null) throw new Exception("calculation of null");
+
+        // when string
+        if (leftVal.getType() == ValueType.STRING || rightVal.getType() == ValueType.STRING) {
+            switch (operator) {
+                case EQ: return new ValueImpl(leftVal.getSValue().equals(rightVal.getSValue()));
+                case NE: return new ValueImpl(!leftVal.getSValue().equals(rightVal.getSValue()));
+                default: throw new Exception("designated invalid operator for string condition. (not = or !=)");
+            }
+        }
+
+        switch (operator) {
+            case LT: return new ValueImpl(leftVal.getDoubleValue() < rightVal.getDoubleValue());
+            case LE: return new ValueImpl(leftVal.getDoubleValue() <= rightVal.getDoubleValue());
+            case GT: return new ValueImpl(leftVal.getDoubleValue() > rightVal.getDoubleValue());
+            case GE: return new ValueImpl(leftVal.getDoubleValue() >= rightVal.getDoubleValue());
+            case EQ: return new ValueImpl(leftVal.getDoubleValue() == rightVal.getDoubleValue());
+            case NE: return new ValueImpl(leftVal.getDoubleValue() != rightVal.getDoubleValue());
+            default: throw new Exception("designated invalid operator for condition.");
+        }
     }
 }
-
