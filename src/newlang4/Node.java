@@ -1,5 +1,7 @@
 package newlang4;
 
+import newlang3.Value;
+
 public abstract class Node {
     protected NodeType type;
     protected Environment env;
@@ -22,9 +24,9 @@ public abstract class Node {
 
     public void parse() throws Exception {}
 
-//    public Value getValue() throws Exception {
-//        return null;
-//    }
+    public Value getValue() throws Exception {
+        return null;
+    }
 
     public String toString() {
         if (type == NodeType.END) return "END";
