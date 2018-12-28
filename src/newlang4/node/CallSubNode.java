@@ -45,8 +45,7 @@ public class CallSubNode extends Node {
 
         // check bracket is closed
         if (bracketFlag) {
-            if(env.getInput().get().getType() == LexicalType.RP) env.getInput().get();
-            else throw new InternalError("syntax error. missing closing bracket. line: " + env.getInput().getLine());
+            if(env.getInput().get().getType() != LexicalType.RP) throw new Exception("syntax error. missing closing bracket. line: " + env.getInput().getLine());
         }
     }
 

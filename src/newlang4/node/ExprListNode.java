@@ -30,7 +30,7 @@ public class ExprListNode extends Node {
 
         // loop comma and expr
         while(true) {
-            LexicalType inputType = env.getInput().get().getType();
+            LexicalType inputType = env.getInput().peep(1).getType();
 
             // when comma
             if (inputType == LexicalType.COMMA) {
@@ -40,8 +40,8 @@ public class ExprListNode extends Node {
             // when expr
             if (ExprNode.isMatch(inputType)) {
                 Node exprHandler = ExprNode.getHandler(env);
-                child.add(exprHandler);
                 exprHandler.parse();
+                child.add(exprHandler);
             } else throw new Exception("syntax error. wrong argument list for call function. line: " + env.getInput().getLine());
         }
     }
