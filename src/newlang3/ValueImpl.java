@@ -17,14 +17,16 @@ public class ValueImpl implements Value{
             case DOUBLE:
                 dval = Double.parseDouble(s);
                 break;
-            case BOOL:
-                bval = Boolean.parseBoolean(s);
-                break;
             case STRING:
                 sval = s;
                 break;
         }
         this.type = type;
+    }
+
+    public ValueImpl(boolean bool) {
+        bval = bool;
+        this.type = ValueType.BOOL;
     }
 
     @Override
