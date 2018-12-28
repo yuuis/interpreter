@@ -34,11 +34,13 @@ public class ExprListNode extends Node {
 
             // when comma
             if (inputType == LexicalType.COMMA) {
+                // skip comma
                 env.getInput().get();
             } else break;
 
             // when expr
-            if (ExprNode.isMatch(inputType)) {
+            System.out.println(ExprNode.isMatch(env.getInput().peep(2).getType()));
+            if (ExprNode.isMatch(env.getInput().peep(1).getType())) {
                 Node exprHandler = ExprNode.getHandler(env);
                 exprHandler.parse();
                 child.add(exprHandler);
@@ -57,7 +59,7 @@ public class ExprListNode extends Node {
     public String toString() {
         String temp = "expr list: ";
         for (int i = 0; i < child.size(); i++) {
-            temp += child.get(i);
+            temp += child.get(i) + " ";
         }
         return temp;
     }

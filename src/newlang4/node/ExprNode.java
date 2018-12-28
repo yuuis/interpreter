@@ -76,7 +76,7 @@ public class ExprNode extends Node {
                     env.getInput().get();
 
                     // add exprs
-                    Node exprHandler = ExprNode.getHandler(env);
+                    Node exprHandler = ExprListNode.getHandler(env);
                     exprHandler.parse();
                     exprs.add(exprHandler);
 
