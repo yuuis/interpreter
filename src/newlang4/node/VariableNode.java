@@ -13,6 +13,7 @@ import java.util.Set;
 public class VariableNode extends Node {
     static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.NAME));
     private String name;
+    private Value value;
 
     private VariableNode(Environment env) {
         super(env);
@@ -42,5 +43,13 @@ public class VariableNode extends Node {
 
     public String toString() {
         return "variable: " + this.name;
+    }
+
+    public Value getValue() throws Exception {
+        return value;
+    }
+
+    public void setValue(Value value) throws Exception {
+        this.value = value;
     }
 }

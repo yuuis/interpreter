@@ -48,7 +48,7 @@ public class ExprListNode extends Node {
         }
     }
 
-    public static Node getHandler(Environment environment) {
+    public static ExprListNode getHandler(Environment environment) {
         return new ExprListNode(environment);
     }
 

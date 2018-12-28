@@ -1,6 +1,7 @@
 package newlang4.node;
 
 import newlang3.LexicalType;
+import newlang3.Value;
 import newlang4.Environment;
 import newlang4.Node;
 import newlang4.NodeType;
@@ -31,4 +32,9 @@ public class EndNode extends Node {
     public static boolean isMatch(LexicalType type) { return first.contains(type); }
 
     public String toString() { return "end"; }
+
+    public Value getValue() throws Exception {
+        System.exit(0);
+        return null;
+    }
 }

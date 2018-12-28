@@ -84,4 +84,11 @@ public class StmtListNode extends Node {
 
         return temp;
     }
+
+    public Value getValue() throws Exception {
+        for (Node ch: child) {
+            ch.getValue();
+        }
+        return null;
+    }
 }

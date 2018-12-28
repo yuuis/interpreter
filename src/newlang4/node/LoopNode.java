@@ -1,6 +1,7 @@
 package newlang4.node;
 
 import newlang3.LexicalType;
+import newlang3.Value;
 import newlang4.Environment;
 import newlang4.Node;
 import newlang4.NodeType;
@@ -20,7 +21,7 @@ public class LoopNode extends Node {
     private final static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.WHILE, LexicalType.DO));
     private Node condition;
     private Node process;
-    private boolean doWhileFlag = false; // do while
+    private boolean doFlag = false; // do while
     private boolean untilFlag = false;
 
 
@@ -71,7 +72,7 @@ public class LoopNode extends Node {
             // skip <DO>
             env.getInput().get();
 
-            doWhileFlag = true;
+            doFlag = true;
 
             // check <cond>
             doBlockCond();
@@ -153,5 +154,25 @@ public class LoopNode extends Node {
         temp += condition + ")\n";
         temp += process;
         return temp;
+    }
+
+    public Value getValue() throws Exception {
+
+        // exec first
+        if (doFlag) process.getValue();
+
+        while (true) {
+            // loop until end condition
+            if(!judge()) return null;
+            process.getValue();
+        }
+    }
+
+    // judge for end condition
+    public boolean judge() throws Exception {
+        // condition
+        // * condition: true && while
+        // * condition: false && until
+        return (condition.getValue().getBooleanValue() && !untilFlag || !condition.getValue().getBooleanValue() && untilFlag);
     }
 }

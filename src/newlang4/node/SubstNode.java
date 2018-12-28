@@ -1,6 +1,7 @@
 package newlang4.node;
 
 import newlang3.LexicalType;
+import newlang3.Value;
 import newlang4.Environment;
 import newlang4.Node;
 import newlang4.NodeType;
@@ -50,4 +51,10 @@ public class SubstNode extends Node {
     }
 
     public String toString() { return "subst: " + left + " <= " + expr.toString() + "\n"; }
+
+    public Value getValue() throws Exception {
+        // get variable and set value to it
+        env.getVariable(left).setValue(expr.getValue());
+        return null;
+    }
 }

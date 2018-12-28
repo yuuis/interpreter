@@ -1,6 +1,7 @@
 package newlang4.node;
 
 import newlang3.LexicalType;
+import newlang3.Value;
 import newlang4.Environment;
 import newlang4.Node;
 import newlang4.NodeType;
@@ -17,7 +18,7 @@ import java.util.Set;
 public class CallSubNode extends Node {
     static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.NAME));
     String name;
-    Node arguments;
+    ExprListNode arguments;
 
     private CallSubNode(Environment env) {
         super(env);
@@ -58,4 +59,8 @@ public class CallSubNode extends Node {
     }
 
     public String toString() { return "function: " + name + "(" + arguments + ")\n"; }
+
+    public Value getValue() throws Exception {
+        return env.getFunction(name).invoke(arguments);
+    }
 }

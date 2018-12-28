@@ -40,7 +40,7 @@ public class ExprNode extends Node {
         type = NodeType.EXPR;
     }
 
-    private ExprNode(Node left, Node right, LexicalType operator){
+    public ExprNode(Node left, Node right, LexicalType operator){
         this.left = left;
         this.right = right;
         this.operator = operator;
@@ -50,7 +50,7 @@ public class ExprNode extends Node {
         List<Node> exprs = new ArrayList<>();
         List<LexicalType> operators = new ArrayList<>();
 
-        while(true) {
+        while (true) {
             // operand operator operand operator operand ...
 
             // check operand
@@ -112,7 +112,7 @@ public class ExprNode extends Node {
 
         }
 
-        for(int i = operators.size() - 1; i >= 0; i--) {
+        for (int i = operators.size() - 1; i >= 0; i--) {
             if (operators.size() == 1) {
                 left=exprs.get(0);
                 right=exprs.get(1);
@@ -129,7 +129,7 @@ public class ExprNode extends Node {
     // conversion to reverse polish notation
     // create expr for each operation
     private void addOperator(List<Node> rightList, List<LexicalType> operatorList, LexicalType operator) throws Exception {
-        for(int i = operatorList.size()-1; i >= 0; i--){
+        for (int i = operatorList.size()-1; i >= 0; i--){
             boolean flag = false;
             if (operators_map.get(operatorList.get(i))<operators_map.get(operator)){
                 flag = true;

@@ -1,6 +1,7 @@
 package newlang4.node;
 
 import newlang3.LexicalType;
+import newlang3.Value;
 import newlang4.Environment;
 import newlang4.Node;
 import newlang4.NodeType;
@@ -32,17 +33,17 @@ public class CondNode extends Node {
 
     public void parse() throws Exception {
         // check <expr>
-        if(ExprNode.isMatch(env.getInput().peep(1).getType())) {
+        if (ExprNode.isMatch(env.getInput().peep(1).getType())) {
             left = ExprNode.getHandler(env);
             left.parse();
         } else throw new Exception("syntax error. missing left expr. line: " + env.getInput().getLine());
 
         // check operator
-        if(operators.contains(env.getInput().peep(1).getType())) {
+        if (operators.contains(env.getInput().peep(1).getType())) {
             operator = env.getInput().get().getType();
         } else throw new Exception("syntax error. missing operator. line: " + env.getInput().getLine());
 
-        if(ExprNode.isMatch(env.getInput().peep(1).getType())) {
+        if (ExprNode.isMatch(env.getInput().peep(1).getType())) {
             right = ExprNode.getHandler(env);
             right.parse();
         } else throw new Exception("syntax error. missing right expr. line: " + env.getInput().getLine());
@@ -58,6 +59,10 @@ public class CondNode extends Node {
 
     public String toString() {
         return "cond: " + left + " " + operator + " " + right;
+    }
+
+    public Value getValue() throws Exception {
+        return null;
     }
 }
 

@@ -133,4 +133,10 @@ public class IfBlockNode extends Node {
     public static boolean isMatch(LexicalType type) {
         return first.contains(type);
     }
+
+    public Value getValue() throws Exception {
+        if (condition.getValue().getBooleanValue()) process.getValue();
+        else if (processOnElse != null) processOnElse.getValue();
+        return null;
+    }
 }
