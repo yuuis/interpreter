@@ -24,8 +24,6 @@ public class Main {
         fileInputStream = new FileInputStream(fileName);
         lexicalAnalyzer = new LexicalAnalyzerImpl(fileInputStream);
         env = new Environment(lexicalAnalyzer);
-        first = lexicalAnalyzer.get();
-        lexicalAnalyzer.unget(first);
 
         program = ProgramNode.getHandler(env);
         if (program != null) {
