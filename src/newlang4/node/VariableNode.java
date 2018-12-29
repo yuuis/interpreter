@@ -15,15 +15,15 @@ public class VariableNode extends Node {
     private String name;
     private Value value;
 
-    private VariableNode(Environment env) {
-        super(env);
+    public VariableNode(String name) {
+        this.name = name;
         type = NodeType.VARIABLE;
     }
 
     private VariableNode(Value value, Environment env) {
         super(env);
         type = NodeType.VARIABLE;
-        name = value.getSValue();
+        this.value = value;
     }
 
     public void parse() throws Exception {
@@ -37,19 +37,13 @@ public class VariableNode extends Node {
         return new VariableNode(value, environment);
     }
 
-    public static Node getHandler(Environment environment) {
-        return new VariableNode(environment);
-    }
-
     public String toString() {
         return "variable: " + this.name;
     }
 
-    public Value getValue() throws Exception {
-        return value;
-    }
+    public Value getValue() { return this.value; }
 
-    public void setValue(Value value) throws Exception {
+    public void setValue(Value value) {
         this.value = value;
     }
 }

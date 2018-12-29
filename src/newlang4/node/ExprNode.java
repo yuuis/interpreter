@@ -76,7 +76,7 @@ public class ExprNode extends Node {
                     env.getInput().get();
 
                     // add exprs
-                    Node exprHandler = ExprListNode.getHandler(env);
+                    Node exprHandler = ExprNode.getHandler(env);
                     exprHandler.parse();
                     exprs.add(exprHandler);
 
@@ -92,8 +92,8 @@ public class ExprNode extends Node {
                         callSub.parse();
                         exprs.add(callSub);
 
-                        // when variable
-                    } else exprs.add(VariableNode.getHandler(env.getInput().get().getValue(), env));
+                    // when <NAME> -> variable
+                    } else exprs.add(env.getVariable(env.getInput().get().getValue().getSValue()));
                     break;
 
                 case INTVAL:
@@ -114,9 +114,9 @@ public class ExprNode extends Node {
 
         for (int i = operators.size() - 1; i >= 0; i--) {
             if (operators.size() == 1) {
-                left=exprs.get(0);
-                right=exprs.get(1);
-                operator=operators.get(0);
+                left = exprs.get(0);
+                right = exprs.get(1);
+                operator = operators.get(0);
                 return;
             }
             exprs.add(new ExprNode(exprs.get(exprs.size() -2), exprs.get(exprs.size() -1), operators.get(i)));
@@ -137,7 +137,7 @@ public class ExprNode extends Node {
                 rightList.remove(rightList.size()-3);
                 rightList.remove(rightList.size()-2);
                 operatorList.remove(i);
-            } else if (flag && operators_map.get(operatorList.get(i))>=operators_map.get(operator)) break;
+            } else if (flag && operators_map.get(operatorList.get(i)) >= operators_map.get(operator)) break;
         }
         operatorList.add(operator);
     }

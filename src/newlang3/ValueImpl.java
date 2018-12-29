@@ -4,15 +4,16 @@ public class ValueImpl implements Value{
 
     private ValueType type;
     private String sval;
-    private Integer ival;
-    private Double dval;
+    private int ival;
+    private double dval;
     private Boolean bval;
 
 
     public ValueImpl(String s, ValueType type) {
         switch (type) {
             case INTEGER:
-                ival = Integer.parseInt(s);
+                dval = Double.parseDouble(s);
+                ival = (int) dval;
                 break;
             case DOUBLE:
                 dval = Double.parseDouble(s);

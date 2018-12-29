@@ -25,15 +25,13 @@ public class Main {
         lexicalAnalyzer = new LexicalAnalyzerImpl(fileInputStream);
         env = new Environment(lexicalAnalyzer);
         first = lexicalAnalyzer.get();
-        System.out.println(first);
         lexicalAnalyzer.unget(first);
 
         program = ProgramNode.getHandler(env);
         if (program != null) {
             program.parse();
-            System.out.println(program);
-//            System.out.println("value = " + program.getValue());
-        }
-        else System.out.println("syntax error");
+//            System.out.println(program);
+            System.out.println("value: " + program.getValue());
+        } else System.out.println("syntax error");
     }
 }
