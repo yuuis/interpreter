@@ -1,6 +1,7 @@
 package newlang4.node;
 
 import newlang3.LexicalType;
+import newlang3.Value;
 import newlang4.Environment;
 import newlang4.Node;
 import newlang4.NodeType;
@@ -62,5 +63,10 @@ public class ExprListNode extends Node {
             temp += child.get(i) + " ";
         }
         return temp;
+    }
+
+    public Value get(int index) throws Exception {
+        if (child.size() > index) return child.get(index).getValue();
+        else return null;
     }
 }
