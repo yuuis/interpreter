@@ -158,4 +158,42 @@ public class ExprNode extends Node {
         }
         return temp;
     }
+
+    public Value getValue() throws Exception {
+        // return val (INTVAL or DOUBLEVAL etc...)
+        if (operator == null) return left.getValue();
+
+        Value leftVal = left.getValue();
+        Value rightVal = right.getValue();
+
+        // null check
+        if (leftVal == null || rightVal == null) throw new Exception("calculation of null");
+
+        // when string
+        if (leftVal.getType() == ValueType.STRING || rightVal.getType() == ValueType.STRING) {
+            if (operator == LexicalType.ADD) return new ValueImpl(leftVal.getSValue() + rightVal.getSValue(), ValueType.STRING);
+            else throw new Exception("designated invalid operator for string condition. (can use: `+`)");
+        }
+
+        double result;
+        switch (operator) {
+            case ADD:
+                result = leftVal.getDoubleValue() + rightVal.getDoubleValue();
+                break;
+            case SUB:
+                result = leftVal.getDoubleValue() - rightVal.getDoubleValue();
+                break;
+            case MUL:
+                result = leftVal.getDoubleValue() * rightVal.getDoubleValue();
+                break;
+            case DIV:
+                if (rightVal.getDoubleValue() == 0) throw new Exception("divide by zero.");
+                result = leftVal.getDoubleValue() / rightVal.getDoubleValue();
+                break;
+            default: throw new Exception("designated invalid operator");
+        }
+
+        if (leftVal.getType() == ValueType.DOUBLE || rightVal.getType() == ValueType.DOUBLE) return new ValueImpl(result + "", ValueType.DOUBLE);
+        else return new ValueImpl(result + "", ValueType.INTEGER);
+    }
 }
