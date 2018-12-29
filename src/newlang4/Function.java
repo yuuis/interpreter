@@ -4,7 +4,7 @@ import newlang3.Value;
 import newlang4.node.ExprListNode;
 
 public class Function {
-    public Value invoke(ExprListNode arguments) {
+    public Value invoke(ExprListNode arguments) throws Exception {
         return null;
     }
 }
