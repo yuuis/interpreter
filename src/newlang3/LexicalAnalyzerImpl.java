@@ -205,12 +205,6 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         LexicalUnit lu = get();
         temp.add(lu);
 
-//        while(it.hasNext()) {
-//            lu = it.next();
-//            unget(lu);
-//            it.remove();
-//        }
-
         while(!temp.isEmpty()) {
             unget(temp.get(temp.size() - 1));
             temp.remove(temp.size() - 1);
