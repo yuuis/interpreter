@@ -58,7 +58,6 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
                 // when symbol
                 if (SYMBOL_MAP.containsKey(c + "")) return getSymbol();
 
-                System.out.println(c);
                 throw new InternalError("shinda");
 //                throw new Exception("character cant be interpreted");
             }

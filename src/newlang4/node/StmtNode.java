@@ -30,14 +30,12 @@ public class StmtNode extends Node {
             case NAME:
                 LexicalType inputType = environment.getInput().peep(2).getType();
 
-                // when <NAME> <EQ>
-                if(inputType == EQ ) {
-                    return SubstNode.getHandler(environment);
-                }
+                // when <NAME> <EQ> -> subst
+                if (inputType == EQ ) return SubstNode.getHandler(environment);
 
-                // when `NAME <expr_list>`
-                if(ExprNode.isMatch(inputType)) return CallSubNode.getHandler(environment);
-                throw new Exception("syntax error. missing expr_list. line: " + environment.getInput().getLine());
+                // when <NAME> <expr_list> -> call_sub
+                if (ExprListNode.isMatch(inputType)) return CallSubNode.getHandler(environment);
+                else throw new Exception("syntax error. wrong constitution for statement. line: " + environment.getInput().getLine());
 
             case FOR:
                 return ForNode.getHandler(environment);

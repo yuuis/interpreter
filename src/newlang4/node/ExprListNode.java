@@ -40,7 +40,6 @@ public class ExprListNode extends Node {
             } else break;
 
             // when expr
-            System.out.println(ExprNode.isMatch(env.getInput().peep(2).getType()));
             if (ExprNode.isMatch(env.getInput().peep(1).getType())) {
                 Node exprHandler = ExprNode.getHandler(env);
                 exprHandler.parse();

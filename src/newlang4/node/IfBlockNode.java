@@ -37,10 +37,10 @@ public class IfBlockNode extends Node {
 
         // IF condition THEN process(STMT) ELSE process(STMT) ENDIF
 
-        // IF condition THEN
-        //   process(STMTLIST)
-        // ELSEIF condition THEN
-        //   process(STMTLIST)
+        // IF condition THEN NL
+        //   process(STMT_LIST) NL
+        // ELSEIF condition THEN NL
+        //   process(STMT_LIST) NL
         // ENDIF
 
         boolean elseifFlag = false;
@@ -53,14 +53,13 @@ public class IfBlockNode extends Node {
         env.getInput().get();
 
         // check cond
-        if (CondNode.isMatch(inputType)){
+        if (CondNode.isMatch(env.getInput().peep(1).getType())){
             condition = CondNode.getHandler(env);
             condition.parse();
         } else throw new Exception("syntax error. missing condition. line: " + env.getInput().getLine());
 
         // check THEN
         if (env.getInput().get().getType() != LexicalType.THEN) throw new Exception("syntax error. missing THEN. line: " + env.getInput().getLine());
-
 
         // check process
         if (StmtNode.isMatch(env.getInput().peep(1).getType())) {
@@ -107,7 +106,7 @@ public class IfBlockNode extends Node {
 
                     // check process
                     if (StmtListNode.isMatch(env.getInput().peep(1).getType())){
-                        processOnElse = StmtNode.getHandler(env);
+                        processOnElse = StmtListNode.getHandler(env);
                         processOnElse.parse();
                     } else throw new Exception("syntax error. line: " + env.getInput().getLine());
 
@@ -122,7 +121,7 @@ public class IfBlockNode extends Node {
             }
 
             // check ENDIF
-            if (env.getInput().peep(1).getType() != LexicalType.ENDIF) throw new Exception("syntax error. missing ENDIF. line: " + env.getInput().getLine());
+            if (env.getInput().get().getType() != LexicalType.ENDIF) throw new Exception("syntax error. missing ENDIF. line: " + env.getInput().getLine());
         }
     }
 
