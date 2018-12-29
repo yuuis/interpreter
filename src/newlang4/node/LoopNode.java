@@ -44,10 +44,7 @@ public class LoopNode extends Node {
             } else throw new Exception("syntax error. missing condition. line: " + env.getInput().getLine());
 
             // check <NL>
-            if (env.getInput().peep(1).getType() == LexicalType.NL) {
-                // skip <NL>
-                env.getInput().get();
-            } else throw new Exception("syntax error. missing new line. line: " + env.getInput().getLine());
+            if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing NL. line: " + env.getInput().getLine());
 
             // check <stmt_list>
             if (StmtListNode.isMatch(env.getInput().peep(1).getType())) {
@@ -55,11 +52,8 @@ public class LoopNode extends Node {
                 process.parse();
             } else throw new Exception("syntax error. missing process for WHILE. line: " + env.getInput().getLine());
 
-            // check <NL>
-            if (env.getInput().peep(1).getType() == LexicalType.NL) {
-                // skip <NL>
-                env.getInput().get();
-            } else throw new Exception("syntax error. missing new line. line: " + env.getInput().getLine());
+//            // check <NL>
+//            if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing NL. line: " + env.getInput().getLine());
 
             // check <WEND>
             if (env.getInput().peep(1).getType() == LexicalType.WEND) {
@@ -78,10 +72,7 @@ public class LoopNode extends Node {
             doBlockCond();
 
             // check <NL>
-            if (env.getInput().peep(1).getType() == LexicalType.NL) {
-                // skip <NL>
-                env.getInput().get();
-            } else throw new Exception("syntax error. missing new line. line: " + env.getInput().getLine());
+            if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing NL. line: " + env.getInput().getLine());
 
             // check <stmt_list>
             if (StmtListNode.isMatch(env.getInput().peep(1).getType())) {
@@ -102,10 +93,7 @@ public class LoopNode extends Node {
         } else throw new Exception("syntax error. loop block should starts WHILE or DO. line: " + env.getInput().getLine());
 
         // check <NL>
-        if (env.getInput().peep(1).getType() == LexicalType.NL) {
-            // skip <NL>
-            env.getInput().get();
-        } else throw new Exception("syntax error. missing new line. line: " + env.getInput().getLine());
+        if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing NL. line: " + env.getInput().getLine());
     }
 
     // check condition for while or until

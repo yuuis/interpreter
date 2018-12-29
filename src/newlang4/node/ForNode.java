@@ -53,10 +53,10 @@ public class ForNode extends Node {
         if (StmtListNode.isMatch(inputType)){
             operation = StmtListNode.getHandler(env);
             operation.parse();
-        } else throw new Exception("syntax error. missing . line: " + env.getInput().getLine());
+        } else throw new Exception("syntax error. missing stmt_list. line: " + env.getInput().getLine());
 
-        // check <NL>
-        if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing new line. line: " + env.getInput().getLine());
+//        // check <NL>
+//        if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing new line. line: " + env.getInput().getLine());
 
         // check <NEXT>
         if (env.getInput().get().getType() != LexicalType.NEXT) throw new Exception("syntax error. missing NEXT. line: " + env.getInput().getLine());

@@ -88,8 +88,8 @@ public class IfBlockNode extends Node {
                 process.parse();
             }
 
-            // check NL
-            if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing NL. line: " + env.getInput().getLine());
+//            // check NL
+//            if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing NL. line: " + env.getInput().getLine());
 
             // check ELSEIF
             if (env.getInput().peep(1).getType() == LexicalType.ELSEIF) {
