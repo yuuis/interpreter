@@ -54,4 +54,8 @@ public class ConstNode extends Node {
         }
         return temp;
     }
+
+    public Value getValue() throws Exception {
+        return value;
+    }
 }
