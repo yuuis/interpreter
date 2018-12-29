@@ -1,6 +1,7 @@
 package newlang4;
 
 import newlang3.*;
+import newlang4.functions.PrintFunction;
 import newlang4.node.VariableNode;
 
 import java.util.HashMap;
@@ -13,7 +14,9 @@ public class Environment {
 
     public Environment(LexicalAnalyzer my_input) {
         input = my_input;
-        variables = new HashMap();
+        variables = new HashMap<>();
+        functions = new HashMap<>();
+        functions.put("PRINT", new PrintFunction());
     }
 
     public LexicalAnalyzer getInput() {
@@ -25,8 +28,12 @@ public class Environment {
         else throw new Exception("error. undefined function. function name: " + name);
     }
 
-    public VariableNode getVariable(String name) throws Exception {
+    public VariableNode getVariable(String name) {
         if (variables.containsKey(name)) return variables.get(name);
-        else throw new Exception("error. undefined variable. variable name: " + name);
+        else {
+            VariableNode variable = new VariableNode(name);
+            variables.put(name, variable);
+            return variable;
+        }
     }
 }
