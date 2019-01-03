@@ -14,9 +14,11 @@ public class ValueImpl implements Value{
             case INTEGER:
                 dval = Double.parseDouble(s);
                 ival = (int) dval;
+                sval = s;
                 break;
             case DOUBLE:
                 dval = Double.parseDouble(s);
+                sval = s;
                 break;
             case STRING:
                 sval = s;
