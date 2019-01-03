@@ -17,7 +17,6 @@ import static newlang3.LexicalType.*;
 
 public class StmtNode extends Node {
     private final static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.NAME, LexicalType.FOR, LexicalType.END));
-    List<Node> child = new ArrayList<Node>();
 
     private StmtNode(Environment env) {
         super(env);
