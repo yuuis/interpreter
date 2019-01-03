@@ -119,23 +119,23 @@ public class ExprNode extends Node {
                 operator = operators.get(0);
                 return;
             }
-            exprs.add(new ExprNode(exprs.get(exprs.size() -2), exprs.get(exprs.size() -1), operators.get(i)));
-            exprs.remove(exprs.size() -3);
-            exprs.remove(exprs.size() -2);
+            exprs.add(new ExprNode(exprs.get(exprs.size() - 2), exprs.get(exprs.size() - 1), operators.get(i)));
+            exprs.remove(exprs.size() - 3);
+            exprs.remove(exprs.size() - 2);
         }
         left = exprs.get(0);
     }
 
     // conversion to reverse polish notation
     // create expr for each operation
-    private void addOperator(List<Node> rightList, List<LexicalType> operatorList, LexicalType operator) throws Exception {
-        for (int i = operatorList.size()-1; i >= 0; i--){
+    private void addOperator(List<Node> rightList, List<LexicalType> operatorList, LexicalType operator) {
+        for (int i = operatorList.size() - 1; i >= 0; i--){
             boolean flag = false;
             if (operators_map.get(operatorList.get(i))<operators_map.get(operator)){
                 flag = true;
-                rightList.add(new ExprNode(rightList.get(rightList.size()-2),rightList.get(rightList.size()-1),operatorList.get(i)));
-                rightList.remove(rightList.size()-3);
-                rightList.remove(rightList.size()-2);
+                rightList.add(new ExprNode(rightList.get(rightList.size() - 2),rightList.get(rightList.size() - 1),operatorList.get(i)));
+                rightList.remove(rightList.size() - 3);
+                rightList.remove(rightList.size() - 2);
                 operatorList.remove(i);
             } else if (flag && operators_map.get(operatorList.get(i)) >= operators_map.get(operator)) break;
         }
