@@ -160,6 +160,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         RESERVED_WORD_MAP.put("DIM", new LexicalUnit(LexicalType.DIM));
         RESERVED_WORD_MAP.put("AS", new LexicalUnit(LexicalType.AS));
         RESERVED_WORD_MAP.put("END", new LexicalUnit(LexicalType.END));
+        RESERVED_WORD_MAP.put("ENDIF", new LexicalUnit(LexicalType.ENDIF));
         RESERVED_WORD_MAP.put("WHILE", new LexicalUnit(LexicalType.WHILE));
         RESERVED_WORD_MAP.put("DO", new LexicalUnit(LexicalType.DO));
         RESERVED_WORD_MAP.put("UNTIL", new LexicalUnit(LexicalType.UNTIL));
