@@ -55,7 +55,7 @@ public class ForNode extends Node {
             operation.parse();
         } else throw new Exception("syntax error. missing stmt_list. line: " + env.getInput().getLine());
 
-//        // check <NL>
+        // check <NL>
 //        if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing new line. line: " + env.getInput().getLine());
 
         // check <NEXT>
