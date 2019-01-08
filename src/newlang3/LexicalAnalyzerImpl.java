@@ -120,6 +120,8 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             if (ci < 0) return SYMBOL_MAP.get(target);
             char c = (char) ci;
 
+            if ("\n".equals(c + "")) this.line++;
+
             if (SYMBOL_MAP.containsKey(target + c)) {
                 target += c;
             } else {
@@ -153,6 +155,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         RESERVED_WORD_MAP.put("THEN", new LexicalUnit(LexicalType.THEN));
         RESERVED_WORD_MAP.put("ELSE", new LexicalUnit(LexicalType.ELSE));
         RESERVED_WORD_MAP.put("ELSEIF", new LexicalUnit(LexicalType.ELSEIF));
+        RESERVED_WORD_MAP.put("ENDIF", new LexicalUnit(LexicalType.ENDIF));
         RESERVED_WORD_MAP.put("FOR", new LexicalUnit(LexicalType.FOR));
         RESERVED_WORD_MAP.put("FORALL", new LexicalUnit(LexicalType.FORALL));
         RESERVED_WORD_MAP.put("NEXT", new LexicalUnit(LexicalType.NEXT));
@@ -160,7 +163,6 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         RESERVED_WORD_MAP.put("DIM", new LexicalUnit(LexicalType.DIM));
         RESERVED_WORD_MAP.put("AS", new LexicalUnit(LexicalType.AS));
         RESERVED_WORD_MAP.put("END", new LexicalUnit(LexicalType.END));
-        RESERVED_WORD_MAP.put("ENDIF", new LexicalUnit(LexicalType.ENDIF));
         RESERVED_WORD_MAP.put("WHILE", new LexicalUnit(LexicalType.WHILE));
         RESERVED_WORD_MAP.put("DO", new LexicalUnit(LexicalType.DO));
         RESERVED_WORD_MAP.put("UNTIL", new LexicalUnit(LexicalType.UNTIL));
