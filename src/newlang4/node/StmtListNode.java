@@ -15,7 +15,7 @@ import java.util.*;
 
 public class StmtListNode extends Node {
 
-    private final static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.IF, LexicalType.WHILE, LexicalType.DO, LexicalType.NAME, LexicalType.FOR, LexicalType.END));
+    private final static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.IF, LexicalType.WHILE, LexicalType.DO, LexicalType.NAME, LexicalType.FOR, LexicalType.END, LexicalType.NL));
     List<Node> child = new ArrayList<Node>();
 
     private StmtListNode(Environment env) {
@@ -27,7 +27,7 @@ public class StmtListNode extends Node {
 
         while (true) {
             try {
-                while(env.getInput().peep(1).getType() == LexicalType.NL) {
+                while(env.getInput().peep(1).getType() == LexicalType.NL && StmtListNode.isMatch(env.getInput().peep(2).getType())) {
                     // skip <NL>
                     env.getInput().get();
                 }
