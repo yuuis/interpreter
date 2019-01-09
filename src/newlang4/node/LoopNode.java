@@ -52,8 +52,8 @@ public class LoopNode extends Node {
                 process.parse();
             } else throw new Exception("syntax error. missing process for WHILE. line: " + env.getInput().getLine());
 
-//            // check <NL>
-//            if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing NL. line: " + env.getInput().getLine());
+            // check <NL>
+            if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing NL. line: " + env.getInput().getLine());
 
             // check <WEND>
             if (env.getInput().peep(1).getType() == LexicalType.WEND) {

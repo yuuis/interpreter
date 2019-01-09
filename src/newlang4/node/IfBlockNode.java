@@ -35,11 +35,23 @@ public class IfBlockNode extends Node {
 
     public void parse() throws Exception {
 
-        // IF condition THEN process(STMT) ELSE process(STMT) ENDIF
+        // IF condition THEN process(STMT) ELSE process(STMT)
+
+        // IF condition THEN NL
+        //   process(STMT_LIST) NL
+        // ENDIF
 
         // IF condition THEN NL
         //   process(STMT_LIST) NL
         // ELSEIF condition THEN NL
+        //   process(STMT_LIST) NL
+        // ENDIF
+
+        // IF condition THEN NL
+        //   process(STMT_LIST) NL
+        // ELSEIF condition THEN NL
+        //   process(STMT_LIST) NL
+        // ELSE
         //   process(STMT_LIST) NL
         // ENDIF
 
@@ -112,12 +124,9 @@ public class IfBlockNode extends Node {
 
                     // check NL
                     if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing NL. line: " + env.getInput().getLine());
-                } else throw new Exception("syntax error. missing NL. line: " + env.getInput().getLine());
-            } else throw new Exception("syntax error. it need ELSEIF or ELSE. line: " + env.getInput().getLine());
 
-            // when ELSEIF
-            if (!elseifFlag) {
-                if (env.getInput().get().getType() != LexicalType.NL) throw new Exception("syntax error. missing NL. line: " + env.getInput().getLine());
+                } else throw new Exception("syntax error. missing NL. line: " + env.getInput().getLine());
+
             }
 
             // check ENDIF
