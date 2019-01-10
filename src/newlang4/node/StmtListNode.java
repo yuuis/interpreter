@@ -74,15 +74,9 @@ public class StmtListNode extends Node {
             env.getInput().get();
         }
     }
-
+    
     public String toString() {
-        String temp = "";
-
-        for (Node ch : child) {
-            temp += ch.toString();
-        }
-
-        return temp;
+        return child.toString();
     }
 
     public Value getValue() throws Exception {
